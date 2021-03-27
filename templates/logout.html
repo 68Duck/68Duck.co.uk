@@ -1,0 +1,14 @@
+{% extends "base.html" %} 
+{% block title %}Login Page{% endblock %}   <!-- this will replace the title in base.html --> 
+
+{% block content%} 		<!-- same as before -->
+<form action="#" method = "post">	<!-- # sign means when filled in go back to the same page Post is the secure way of sending stuff -->
+	<p style = "color: green">You have successfully logged out.</p>
+	<p>Username:</p>
+	<p><input type="text" name = "username"/></p>
+	<p>Password:</p>
+	<p><input type = "text" name = "password"/></p>
+	<p><input type = "submit" value = "submit"></p>
+	
+</form>
+{% endblock %}

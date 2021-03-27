@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- <link rel="stylesheet" href="style.css" type="text/css"> -->
+    <link rel="stylesheet" href="{{url_for('static',filename='style.css')}}" type="text/css">
+    <link rel="shortcut icon" type="icon/x-icon" href="{{url_for('static',filename='Images/wordlessLogo.png')}}" />
+    <meta charset="utf-8">
+    <title>68 Duck</title>
+    <!-- <title>5 step learn</title> -->
+  </head>
+  <body>
+    <!-- <img src="" alt="image" id="image" /> -->
+    <!-- <div id="textInputDiv" class="show">
+      <textarea rows="10" cols="30" id="textInput">Enter Text</textarea>
+      <button type="submit" id="saveButton">Save</button>
+    </div> -->
+    <div class="fileInputScreen">   <!-- remove hide when finished testing -->
+      <div id="fileInputDiv" class="fileInput">
+        <!-- add show to above line so show -->
+        <input type="file" id="fileInput"/>
+        <!-- <button type="button" id="confirmButton">Confirm</button> -->
+        <div class="fileContents" id="fileContents">
+          <!-- <textarea id="fileQuestions" class="fileQuestions fileContent">
+          Choose a file and it will be displayed here.
+        </textarea>
+        <textarea id="fileAnswers" class="fileAnswers fileContent">
+        Choose a file and it will be displayed here.
+      </textarea> -->
+    </div>
+    <button class="btn startBtn" id="startBtn">Start</button>
+  </div>
+  <div id="fileInformation" class="fileInformation">
+    File input information
+    <hr />
+    <div class="newLineInput">
+      <div id="NewLineGap" class="newGapHeader">
+        Marker for next term:
+      </div>
+      <input type="radio" name="newLine" id="newLine" value="\n" checked="checked"/>
+      <label for="newLine">\n</label><br />
+      <input type="radio" name="newLine" id="semicolonNewLine" value=";"/>
+      <label for="semicolon">semicolon</label><br />
+      <input type="radio" name="newLine" id="customNewLine" value=""/>
+      <label for="custom">custom</label><br />
+      <input id="customNewLineInput" class="" />
+
+    </div>
+    <hr />
+    <div class="termSplitInput">
+      <div id="NewTermGap" class="newGapHeader">
+        Marker between term and definition:
+      </div>
+      <input type="radio" name="newTermSplit" id="doubleSlashTermSplit" value="//" checked="checked"/>
+      <label for="doubleSlashTermSplit">//</label><br />
+      <input type="radio" name="newTermSplit" id="commaTermSplit" value=","/>
+      <label for="comma">comma</label><br />
+      <input type="radio" name="newTermSplit" id="customTermSplit" value=""/>
+      <label for="custom">custom</label><br />
+      <input id="customTermSplitInput" class="" />
+    </div>
+  </div>
+    </div>
+
+    <div class="startSelectionScreenContainer hide" id="startSelectionScreenContainer">
+      <div class="questionTypeInput">
+        <div id="NewQuestionTypeInput" class="newGapHeader">
+          Check all of the question types you would like to use:
+        </div>
+        <hr />
+        <input type="checkbox" name="questionTypes" id="CopyType" /> Copy prompt <br />
+        <input type="checkbox" name="questionTypes" id="GapFill1" /> Alternating gap fill <br />
+        <input type="checkbox" name="questionTypes" id="GapFill2" /> Other alternating gap fill <br />
+        <input type="checkbox" name="questionTypes" id="ShuffleQuestion" /> Scrambled prompt <br />
+        <input type="checkbox" name="questionTypes" id="MemoryQuestion" /> Write from memory <br />
+        <input type="checkbox" name="questionTypes" id="SelectAll" /> All <br />
+        <br />
+        <button class="btn startBtn" id="startBtn2">Start</button>
+      </div>
+      <div class="questionOrderInput">
+        <div id="NewQuestionOrderInput" class="newGapHeader">
+          Input the question order you would like to use:
+        </div>
+        <hr />
+        <input type="radio" name="questionOrder" id="individualQuestion" checked="checked"/> Answer all types with one question <br />
+        <input type="radio" name="questionOrder" id="wholeQuestionSet"/> Answer all questions before moving onto a different type <br />
+      </div>
+
+      <div class="questionRangeInput">
+        <div id="NewQuestionRangeInput" class="newGapHeader">
+          Input the range of questions you would like to answer:
+        </div>
+        <hr />
+        <input type="radio" name="rangeInputName" id="allQuestionsRange" checked="checked"/>
+        <label>All Questions</label><br />
+        <input type="radio" name="rangeInputName" id="startAtQuestionRange"/>
+        <label>Start At:</label><br />
+        <input id="startAtARangeInput"/><br />
+        <!-- <input type="radio" name="rangeInputName" id="customRange"/> -->
+        <!-- <label for="custom">Custom</label><br />
+        <input id="customRangeInput"/> -->
+      </div>
+    </div>
+
+    <div class="questionContainer hide" id="questionContainer">
+      <div id="question">This will be the question</div>
+      <hr />
+      <div id="prompt">This will be the prompt</div>
+      <div class="answerInputDiv">
+
+        <input type="text" class="answerInput" id="answer"/>
+        <div id="answerChangeDisplay" class="hide answerChangeDisplay"></div>
+        <div id="correctAnswerDisplay" class="hide answerChangeDisplay"></div>
+      </div>
+      <button  id="submitAnswer" class="submitAnswer btn">Submit</button>
+      <button class="btn hide nextBtn">Next</button>
+      <button class="overrule btn hide" id="overruleBtn">Overrule</button>
+
+    </div>
+    <div id="gapFillContainer" class="questionContainer gapFillContainer hide">
+      <div id="promptGapFill">This will be the prompt</div>
+      <hr />
+      <div class="gapFill" id="gapFill">
+
+      </div>
+      <button  id="submitAnswerGapFill" class="submitAnswerGapFill btn">Submit</button>
+      <button class="btn hide nextBtnGapFill">Next</button>
+      <button class="overrule btn hide" id="overruleBtnGapFill">Overrule</button>
+    </div>
+    <!-- <script src="app.js" charset="utf-8"></script> -->
+    <script src="{{url_for('static', filename='app.js')}}" charset="utf-8"></script>
+  </body>
+</html>

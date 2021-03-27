@@ -1,0 +1,108 @@
+{% extends "base2.html" %}
+{% block title %}68 Duck{% endblock %}
+{% block links %}<link rel="stylesheet" href="{{url_for('static',filename='homeStyle.css')}}" type="text/css">{% endblock %}
+{% block header %}
+68 Duck Tutoring
+{% endblock %}
+{% block content %}
+<main style="background-image: url({{url_for('static',filename='Images/bgImage2.jpg')}}); background-size: 100%; background-repeat: no-repeat; height: 100%">
+  <br/>
+  <div class="leftParagraph">
+    <br/>
+    <b>
+      Personalised tuition without leaving your home,<br /> tailored to your child's needs.
+    </b>
+    <br/>
+    <br/>
+    </div>
+    <br />
+  <div class="rightParagraph">
+    <br/>
+    <b>
+      One-to-one tuition with a flexible schedule,<br>
+      no fixed course length and no sign up fees.
+    </b>
+    <br/>
+    <br/>
+  </div>
+  <br/>
+  <div class="leftParagraph">
+    <br/>
+    <b>
+      Lessons in Maths, Physics, Computing and 11+
+      <br/>From £12.50 per hour
+    </b>
+    <br/>
+    <br/>
+    </div>
+    <br />
+  <div class="fullPageParagraph">
+    <br/>
+    <div class="paragraphHeader">
+      <b>
+        About the tutor:
+      </b>
+    </div>
+    <img class="aboutTheTutorImage"src="{{url_for('static',filename='Images/test3.png')}}" alt="Logo image" height="200px">
+    <br/>
+    <br/>
+    <div class="paragraphContent">
+      Hi, I am Josh and I am currently studying at a grammar school in Buckinghamshire.
+
+      I am studying Maths, Further Maths, Physics and Computer Science at A-level, so I am offering tutoring up to GSCE level in these subjects along with 11+ tutoring.
+
+      I have always enjoyed the prospect of teaching and have thoroughly  enjoyed my past experiences in
+      tutoring and mentoring and am looking to continue doing so in the coming years.
+    </div>
+    <br/>
+    <br />
+  </div>
+  <br/>
+  <br/>
+  <div class="fullPageParagraphLight">
+    <br/>
+    <div class="paragraphHeader">
+      <b>
+        Testimonials:
+      </b>
+    </div>
+    <!-- <div class="paragraphContent">
+      Testimonials here
+    </div> -->
+    <div class="testimonialsWrapper">
+      <div class="testimonial">
+        <!-- FIX ME -->
+        <div style="text-align:center;">
+          <b>Henry J </b><br/>
+        </div>
+        <div style="text-align:center;">
+          27 11+ lessons
+        </div>
+        <br/><hr/><br/>
+        <b>Marie J.</b> parent
+        <br/><br/>
+        "We were incredibly lucky to find Josh during this year's' lock-down'. His Zoom lessons were brilliantly prepared and Henry was so enthusiastic about what he had learnt during them and seemed to be gaining so much from the tutoring that we upped it to two lessons a week. Henry found the lessons extremely engaging and due to Josh being younger we feel that this gave Henry a stronger confidence to ask questions that he perhaps wouldn't have with an older tutor.
+        We would definitely recommend Josh as a tutor for the 11+ or just for boosting your child's learning - particularly in Maths. He was patient and encouraging and always gave us a summary of how Henry had done at the end of every lesson so we could keep up with what they had covered - we couldn't have asked for more!"
+
+      </div>
+      <!-- <div class="testimonial">
+        This will be a testimonial
+        <br/><br/>
+        This is the content of the testimonial
+      </div> -->
+      <!-- <div class="testimonial">
+        This will be a testimonial
+        <br/><br/>
+        This is the content of the testimonial
+      </div> -->
+    </div>
+    <br/><br/>
+
+    </div>
+
+  <br />
+  <br />
+</main>
+
+
+{% endblock %}

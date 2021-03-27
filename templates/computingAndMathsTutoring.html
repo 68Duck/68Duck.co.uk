@@ -1,0 +1,67 @@
+{% extends "base2.html" %}
+{% block title %}68 Duck{% endblock %}
+{% block links %}<link rel="stylesheet" href="{{url_for('static',filename='compMat.css')}}" type="text/css">{% endblock %}
+{% block scripts %}<script src="{{url_for('static', filename='compMat.js')}}" charset="utf-8"></script> {% endblock %}
+{% block header %}Maths, Physics and Computing Tutoring{% endblock %}
+{% block content %}
+  <main style="background-image: url({{url_for('static',filename='Images/bgImage3.jpg')}}); background-size: 100%; background-repeat: no-repeat;">
+    <br />
+    <!-- <div style="height: 1000px;">
+    11+ Tutoring
+      </div> -->
+      <div class="leftParagraph">
+        <br/>
+        <b>
+          Online Maths, Physics and Computing tutoring sessions <br/>
+          From £12.50 an hour
+        </b>
+        <br/>
+        <br/>
+        </div>
+        <br />
+        <div class="rightParagraph">
+          <br/>
+          <b>
+            A flexable schedule to cover whatever you want, whenever you want.
+          </b>
+          <br/>
+          <br/>
+        </div>
+        <br/>
+      <div class="fullPageParagraph">
+        <br/>
+        <div class="paragraphHeader">
+          <b>
+            What I can offer:
+          </b>
+        </div>
+        <div class="paragraphContent">
+        Whether you are preparing for a test or exam or just need help with homework, you can request sessions on demand.
+        Chose any combination of the three subjects as and when you need them, or if you prefer, have a more structured course designed to cover all the content.
+
+        </div>
+        <br/>
+        <br />
+      </div>
+      <br/>
+      <div class="fullPageParagraphLight">
+        <br/>
+        <div class="paragraphHeader">
+          <b>
+            Benefits of one-to-one tuition:
+            <!-- with someone of a similar age group: -->
+          </b>
+        </div>
+
+        <div class="paragraphContent">
+          One-to-one tuition has massive benefits when compared to group lessons. All the focus will be on the one person meaning that the lessons can be completely personalised to them.
+          <br/><br/>
+          Also, the ability to connect with one pupil is much easier than with a group, and as I will be in a similar age group, I should be able to relate to them easier than an older teacher can.
+          This should benefit them greatly as they will be able to learn much more and have much more focused sessions tailored to them, so they will learn the most appropriate material.
+        </div>
+        <br/>
+        </div>
+
+    <br />
+    </main>
+{% endblock %}

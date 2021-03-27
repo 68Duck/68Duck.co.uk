@@ -1,0 +1,1 @@
+main = document.getElementById("main")

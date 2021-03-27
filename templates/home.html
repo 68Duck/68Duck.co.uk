@@ -1,0 +1,26 @@
+<!doctype html>
+<html>
+<head>
+	<title>Home Page</title>
+	</head>
+<body>
+	<h1>The home page</h1>
+	{% for i in range(10)%}
+		{% if i%2==0%}
+			<p>{{i}} hello</p>   
+			<!-- the double curly brackets tells the program that it is a variable  -->
+		{% endif %}
+	{% endfor %}
+	
+	{% for listItem in theList %}
+		<p>{{listItem}}</p>
+	{%	endfor%}
+<style>
+</style>
+<script>
+
+</script>
+<p> {{test}} </p>
+
+</body>
+</html>

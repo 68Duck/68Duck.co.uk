@@ -1,0 +1,25 @@
+{% extends "base.html" %} 
+{% block title %}Login Page{% endblock %}   <!-- this will replace the title in base.html --> 
+
+{% block content%} 		<!-- same as before -->
+
+	{% with messages = get_flashed_messages() %}
+		{% if messages %}
+			{% for message in messages %}
+				{% if message == "An error occured. Your username or password may be incorrect. Please try again" %}
+					<p style = "colour: red">{{message}}</p>
+				{% else %}
+					<p>{{message}}</p>
+				{% endif %}
+			{% endfor %}
+		{% endif %}	
+	{% endwith %}
+<form action="#" method = "post">	<!-- # sign means when filled in go back to the same page Post is the secure way of sending stuff -->
+	<p>Username:</p>
+	<p><input type="text" name = "username" placeholder = "Please enter username"/></p>
+	<p>Password:</p>
+	<p><input type = "text" name = "password" placeholder = "Please enter password"/></p>
+	<p><input type = "submit" value = "submit"></p>
+	
+</form>
+{% endblock %}

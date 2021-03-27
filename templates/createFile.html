@@ -1,0 +1,71 @@
+{% extends "base2.html" %}
+{% block title %}68 Duck{% endblock %}
+{% block links %}<link rel="stylesheet" href="{{url_for('static',filename='createFile.css')}}" type="text/css">{% endblock %}
+{% block scripts %}<script src="{{url_for('static', filename='createApp.js')}}" charset="utf-8"></script> {% endblock %}
+{% block header %}File Creator For 5 Step Learn{% endblock %}
+{% block footer %}{% endblock %}
+{% block content %}
+  <main style="background-image: url({{url_for('static',filename='Images/bgImage4.jpg')}}); background-size: 100%; background-repeat: no-repeat;">
+    <br />
+    <div id="paragraph1" class="paragraphWithImage">
+      <img src="{{url_for('static',filename='Images/examStressImage.png')}}" alt="ExamStressImage" height="200px" class="paragraphImage">
+      <div class="paragraphWords">
+
+        <div class="subtitle">
+          <strong>What is 5 Step Learn?</strong><br />
+        </div>
+        <p>
+          5 Step Learn is the first step in learning long pieces of text. Whether it is quotes for an English exam or memorising answers for a speaking language exam, this is an increadbly useful tool to begin learning them.
+          Having to memorise something off by heart is often quite a daunting task as it takes a large amount of effort and by just trying to remember the text after reading it once if very difficult. The 5 Step Learn process is
+          designed to ease this process by slowly introducing the text and gradually increasing the difficulty instead of trying the whole thing in one go. Of course this is just the first step, once you have used this process
+          the whole way through then it is still a good idea to write out the thing you are trying to remember on a piece of paper as writing is a very different skill to typing as you use a different part of your brain but this
+          is a less intimitading first step.
+        </p>
+      </div>
+
+    </div>
+    <div id="paragraph2" class="paragraph2">
+      To create a file for the 5 Step Learn either type in your terms into the boxes below or start by opening a file you have previously used. Make sure to choose dividers that are not present anywhere in your questions or answers
+      as it will cause a split in terms meaning that when you load the file again it will not generate properly. When you have finished, copy and paste the text in the text area at the bottom of the page and save it into a plain
+      text file (notepad or equivelent works well for this) on your computer in a place where you can find it so you can load it from there. You can also copy and paste terms from other documents or other websites into a
+      text file and as long have you ensure that there is a consistant divider between terms then that will work also.
+      </div>
+    <div class="termsAndDeffinitionsBox">
+      <div class="termsAndDeffinitionsInputs"></div>
+      <button class="btn startBtn" id="addTermBtn" style="margin-left: 15px;">Add Term</button>
+      <button class="btn startBtn" id="copyButton">Copy text to clipboard</button>
+      <div id="textToCopy" class="textToCopy">This is where the text will be coppied from</div>       <!-- to change the text inside here it is in the app (javascript) not here -->
+      </div>
+      <div class="fileInformation">
+        File input information
+        <hr />
+        <div class="newLineInput">
+          <div id="NewLineGap" class="newGapHeader">
+            Marker for next term:
+          </div>
+          <input type="radio" name="newLine" id="newLine" value="\n" checked="checked"/>
+          <label for="newLine">\n</label><br />
+          <input type="radio" name="newLine" id="semicolonNewLine" value=";"/>
+          <label for="semicolon">semicolon</label><br />
+          <input type="radio" name="newLine" id="customNewLine" value=""/>
+          <label for="custom">custom</label><br />
+          <input id="customNewLineInput" class="" />
+
+        </div>
+        <hr />
+        <div class="termSplitInput">
+          <div id="NewTermGap" class="newGapHeader">
+            Marker between term and definition:
+          </div>
+          <input type="radio" name="newTermSplit" id="doubleSlashTermSplit" value="//" checked="checked"/>
+          <label for="doubleSlashTermSplit">//</label><br />
+          <input type="radio" name="newTermSplit" id="commaTermSplit" value=","/>
+          <label for="comma">comma</label><br />
+          <input type="radio" name="newTermSplit" id="customTermSplit" value=""/>
+          <label for="custom">custom</label><br />
+          <input id="customTermSplitInput" class="" />
+        </div>
+        </div>
+    <br />
+    </main>
+{% endblock %}

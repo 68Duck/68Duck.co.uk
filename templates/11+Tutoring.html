@@ -1,0 +1,83 @@
+{% extends "base2.html" %}
+{% block title %}68 Duck{% endblock %}
+{% block links %}<link rel="stylesheet" href="{{url_for('static',filename='elevenPlus.css')}}" type="text/css">{% endblock %}
+{% block scripts %}<script src="{{url_for('static', filename='elevenPlus.js')}}" charset="utf-8"></script> {% endblock %}
+{% block header %}11+ Tutoring{% endblock %}
+{% block content %}
+<main style="background-image: url({{url_for('static',filename='Images/bgImage5.jpg')}}); background-size: 100%; background-repeat: no-repeat;">
+  <br />
+  <!-- <div style="height: 1000px;">
+  11+ Tutoring
+    </div> -->
+    <div class="leftParagraph">
+      <br/>
+      <b>
+        Online 11+ tutoring sessions <br/>
+        From £12.50 an hour
+      </b>
+      <br/>
+      <br/>
+      </div>
+      <br />
+      <div class="rightParagraph">
+        <br/>
+        <b>
+          All sections of the exam covered, <br/> with accommodation to all levels of ability
+        </b>
+        <br/>
+        <br/>
+      </div>
+      <br/>
+    <div class="fullPageParagraph">
+      <br/>
+      <div class="paragraphHeader">
+        <b>
+          What I can offer:
+        </b>
+      </div>
+      <div class="paragraphContent">
+        As ability levels and areas of strength and weakness vary greatly from person to person, I will change the length of time spent on each section of the exam depending on your child's needs.
+        I am able to cover all of the sections of the exam namely, Maths, NVR (Non Verbal Reasoning), VR (Verbal Reasoning) and English.
+        <br/><br/>
+        As I am studying Maths and Further Maths at A-level, I specialise in this area, so am able to offer help to a wide range of abilities from leaning the content, to tips and tricks to help with speed.
+        Also, as a current student, I know what it is like to study at a grammar school so can to answer any questions you may have.
+      </div>
+      <br/>
+      <br />
+    </div>
+    <br/>
+    <div class="fullPageParagraphLight">
+      <br/>
+      <div class="paragraphHeader">
+        <b>
+          Benefits of one-to-one tuition:
+          <!-- with someone of a similar age group: -->
+        </b>
+      </div>
+
+      <div class="paragraphContent">
+        One-to-one tuition has massive benefits when compared to group lessons. All the focus will be on the one person meaning that the lessons can be completely personalised to them.
+        <br/><br/>
+        Also, the ability to connect with one pupil is much easier than with a group, and as I will be in a similar age group, I should be able to relate to them better than an older teacher can.
+        This should benefit them greatly as they will be able to learn much more and have much more focused sessions tailored to them, so they will learn the most appropriate material at an enhanced speed.
+      </div>
+      <br/>
+      </div>
+      <br/>
+      <div class="fullPageParagraph">
+        <br/>
+        <b style = "font-size:20px;">Thank you letter from one of my previous students:</b>
+        <br/>
+        <br/>
+        <a href="{{url_for('static',filename='Images/thankYouCard1.jpg')}}">
+
+          <img class="thankYouCard"src="{{url_for('static',filename='Images/thankYouCard1.jpg')}}" alt="Thank you card" height="500px">
+        </a>
+        <a href="{{url_for('static',filename='Images/thankYouCard2.jpg')}}">
+          <img class="thankYouCard"src="{{url_for('static',filename='Images/thankYouCard2.jpg')}}" alt="Thank you card" height="500px">
+        </a>
+        <br/><br/>
+      </div>
+  <br />
+  </main>
+{% endblock %}

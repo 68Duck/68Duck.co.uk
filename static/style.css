@@ -1,0 +1,287 @@
+
+
+main {
+  --backgroundColour: #292C34;
+  background-color: var(--backgroundColour);
+  padding: 0;
+  margin: 0;
+  margin-top: 15px;
+  width: 98vw;
+  --height: 80vh;
+  height: var(--height);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+main .promptDisplay{
+  padding: 5px 0;
+
+}
+
+main .questionDisplay{
+  padding: 5px 0;
+}
+
+main .promptGapFill {
+  padding: 5px 0;
+}
+
+main .questionTypeDisplay{
+  padding-bottom:  10px;
+}
+
+main .btn {
+  --colour: #0000ff;
+  border: 1px solid black;
+  background-color: var(--colour);
+  color: white;
+  border-radius: 5px;
+  outline: none;
+  padding: 5px 10px;
+  transition: all 0.2s ease;
+  z-index: 10;
+}
+
+main .startBtn{
+  width: 100px;
+
+}
+
+main .fileInputDiv{
+  width: 10vw;
+  height: 80vh;
+}
+
+main .fileCreationLinkContainer{
+  background-color: white;
+  color: black;
+  border-radius: 5px;
+  padding: 10px;
+  box-shadow: 0 0 10px 2px;
+  position: absolute;
+  /* left: 0; */
+  top: 10vh;
+  left: 5vw;
+  width: 50vw;
+
+}
+main .fileInformation{
+  background-color: white;
+  color: black;
+  width: 30vw;
+  border-radius: 5px;
+  padding: 10px;
+  box-shadow: 0 0 10px 2px;
+  transition: all 0.5s ease;
+}
+
+main .questionTypeInput{
+  background-color: white;
+  color: black;
+  width: 30vw;
+  border-radius: 5px;
+  padding: 10px;
+  box-shadow: 0 0 10px 2px;
+  transition: all 0.5s ease;
+}
+main .questionRangeInput{
+  transition: all 0.5s ease;
+  background-color: white;
+  color: black;
+  width: 30vw;
+  border-radius: 5px;
+  padding: 10px;
+  box-shadow: 0 0 10px 2px;
+}
+main .questionOrderInput{
+  transition: all 0.5s ease;
+  background-color: white;
+  color: black;
+  width: 30vw;
+  border-radius: 5px;
+  padding: 10px;
+  box-shadow: 0 0 10px 2px;
+}
+main .startSelectionScreenContainer{
+  display: grid;
+  grid-template-columns: repeat(3,auto);
+  gap: 10px;
+}
+
+main .newGapHeader{
+    margin: 10px 0;
+}
+
+
+main .fileInputScreen{
+  display: grid;
+  grid-template-columns: repeat(2,auto);
+  gap: 10px;
+}
+
+main .questionContainer{
+  background-color: white;
+  color: black;
+  width: 80vw;
+  max-width: 80%;
+  border-radius: 5px;
+  padding: 10px;
+  box-shadow: 0 0 10px 2px;
+  transition: all 0.5s ease;
+  /* display: grid;
+  gap: 10px; */
+}
+
+
+main .answerInputDiv {
+  width: 100%;
+  display: grid;
+  gap: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+main .answerInput {
+  -moz-apperance: textfield;
+  -webkit-apperance: textfield;
+  background-color: white;
+  background-color: -moz-field;
+  font-size: 12.5px;
+  border: 1px solid darkgrey;
+  box-shadow: 1px 1px 1px 0 lightgrey inset;
+  font: -moz-field;
+  font: -webkit-small-control;
+  margin-top: 5px;
+  padding: 2px 3px;
+  border-radius: 1px;
+  width: 100%;
+  /* height: 40px; */
+}
+
+main .answerChangeDisplay {
+  white-space: initial;
+  -moz-apperance: textfield;
+  -webkit-apperance: textfield;
+  background-color: white;
+  background-color: -moz-field;
+  font-size: 12.5px;
+  border: 1px solid darkgrey;
+  box-shadow: 1px 1px 1px 0 lightgrey inset;
+  font: -moz-field;
+  font: -webkit-small-control;
+  margin-top: 5px;
+  padding: 2px 3px;
+  border-radius: 1px;
+  /* width: 100%; */
+  max-width: 100%;
+  /* max-height: 100px; */
+}
+
+main .fileContents{
+  width: 60vw;
+  height: 60vh;
+  overflow-y: auto;
+  display: grid;
+  grid-template-columns: repeat(2,auto);
+  gap: 10px
+  /* font-size: 5px; */
+}
+
+main .contentDisplay{
+  --height: 100px;
+  height: var(--height);
+  overflow-y: auto;
+  /* width: 50%; */
+  border: 2px solid black;
+  border-radius: 4px;
+  max-height: 100%;
+  margin: 5px;
+}
+
+
+main .fileInput {
+  background-color: white;
+  color: black;
+  /* width: 800px; */
+  /* max-width: 80%; */
+  border-radius: 5px;
+  padding: 10px;
+  box-shadow: 0 0 10px 2px;
+  transition: all 0.5s ease;
+  position: relative;
+  display: grid;
+  gap: 10px;
+  justify-content: center;
+  text-align: center;
+}
+
+main .gapFill{
+  line-height: 30px;
+  gap: 10px;
+  max-width: 100%
+}
+
+main .gapFillInput{
+  display: inline;
+  -moz-apperance: textfield;
+  -webkit-apperance: textfield;
+  background-color: white;
+  background-color: -moz-field;
+  font-size: 12.5px;
+  border: 1px solid darkgrey;
+  box-shadow: 1px 1px 1px 0 lightgrey inset;
+  font: -moz-field;
+  font: -webkit-small-control;
+  margin: 0;
+  margin-top: 5px;
+  padding: 2px 3px;
+  border-radius: 1px;
+  width: 150px;
+}
+main .correctGapDisplay{
+  display: inline-block;
+  -moz-apperance: textfield;
+  -webkit-apperance: textfield;
+  background-color: white;
+  background-color: -moz-field;
+  font-size: 12.5px;
+  border: 1px solid darkgrey;
+  box-shadow: 1px 1px 1px 0 lightgrey inset;
+  font: -moz-field;
+  font: -webkit-small-control;
+  margin: 0;
+  margin-top: 5px;
+  padding: 2px 3px;
+  border-radius: 1px;
+  max-height: 100px;
+  min-height: 20px;
+  min-width: 150px;
+  max-width: 150px
+  /* width: 150px; */
+}
+main .gapFillWord{
+  display: inline;
+  padding: 10px;
+}
+
+main .green-glow{
+  border: 4px solid #4dcc7d;
+  box-shadow: 0 0 10px #31b43a;  /* horizontal then vertical offset then blur then optional spread then colour */
+}
+
+main .red-glow{
+  border: 4px solid #fc121b;
+  box-shadow: 0 0 10px #d01115;
+}
+main .hide {
+  display: none;
+}
+main .show {
+  display: flex;
+}
+main .btn:hover {
+  cursor:pointer;
+}
+main .btn:not(.hide):hover {
+  background-color: #0000aa
+}

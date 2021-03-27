@@ -1,0 +1,90 @@
+main .paragraphHeader{
+  padding: 20px;
+  font-size: 20px;
+  font-family: "Times New Roman",Times,serif;
+}
+
+main .paragraphContent{
+  padding: 0 100px;
+}
+
+main .aboutTheTutorImage{
+  border-radius: 50%;
+}
+main .leftParagraph{
+  font-family: "Times New Roman",Times,serif;
+  width: 60%;
+  color: white;
+  /* background-color: rgba(39,50,64,0.8); */
+  background-color: rgba(100,106,120,0.8);
+  /* border-radius: 5px;
+  box-shadow: 0 0 10px 2px; */
+  /* height: 100px; */
+  /* padding: 50px; */
+  padding-top: 30px;
+  padding-bottom: 30px;
+  align-items: center;
+  justify-content: center;
+  /* text-align: center; */
+  font-size: 25px;
+  padding-left: 5%;
+  padding-right: 5%;
+}
+main .rightParagraph{
+  font-family: "Times New Roman",Times,serif;
+  width: 60%;
+  color: white;
+  /* background-color: rgba(39,50,64,0.8); */
+  background-color: rgba(100,106,120,0.8);
+  /* border-radius: 5px;
+  box-shadow: 0 0 10px 2px; */
+  /* height: 100px; */
+  /* padding: 50px; */
+  padding-top: 30px;
+  padding-bottom: 30px;
+  align-items: center;
+  justify-content: center;
+  /* text-align: center; */
+  font-size: 25px;
+  padding-left: 5%;
+  padding-right: 5%;
+  margin-right: 0;
+  margin-left: 40%;
+}
+
+main .rightParagraph{
+  font-family: "Times New Roman",Times,serif;
+  width: 60%;
+  color: white;
+  /* background-color: rgba(39,50,64,0.8); */
+  background-color: rgba(100,106,120,0.8);
+  /* border-radius: 5px;
+  box-shadow: 0 0 10px 2px; */
+  /* height: 100px; */
+  /* padding: 50px; */
+  padding-top: 30px;
+  padding-bottom: 30px;
+  align-items: center;
+  justify-content: center;
+  /* text-align: center; */
+  font-size: 25px;
+  padding-left: 5%;
+  padding-right: 5%;
+  margin-right: 0;
+  margin-left: 40%;
+}
+
+main .fullPageParagraph{
+  background-color: #191D29;
+  color: white;
+  width: 100%;
+  text-align: center;
+  justify-content: center;
+}
+main .fullPageParagraphLight{
+  background-color: #646A78;
+  color: white;
+  width: 100%;
+  text-align: center;
+  justify-content: center;
+}

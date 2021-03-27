@@ -1,0 +1,151 @@
+*{
+  gap: 20px;
+  top: 10px;
+}
+
+main {
+  margin-top: 10px;
+  background: no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+header{
+  color: white;
+}
+
+main .fileInformation{
+  background-color: white;
+  color: black;
+  width: 30vw;
+  border-radius: 5px;
+  padding: 10px;
+  box-shadow: 0 0 10px 2px;
+  transition: all 0.5s ease;
+  align-items: center;
+  justify-content: center;
+  width: 30%;
+  margin-left: 35%;
+}
+
+main .paragraphWords{
+  padding: 10px;
+  margin: 2px;
+  margin-left: 225px;
+  background-color: rgba(0,0,0,0.1);
+  border: 2px solid rgba(0,0,0,0.2);
+}
+
+main .paragraphWithImage {
+  background-color: white;
+  color: black;
+  border-radius: 5px;
+  padding: 10px;
+  box-shadow: 0 0 10px 2px;
+  margin: 5vh 4vw;
+  min-height: 200px;
+}
+main .paragraph2 {
+  background-color: white;
+  color: black;
+  border-radius: 5px;
+  padding: 10px;
+  box-shadow: 0 0 10px 2px;
+  margin: 5vh 4vw;
+
+}
+main .termsAndDeffinitionsBox {
+  background-color: white;
+  color: black;
+  border-radius: 5px;
+  box-shadow: 0 0 10px 2px;
+  margin: 5vh 4vw;
+  padding: 10px;
+}
+
+main .termsAndDeffinitionsInputs{
+  display: grid;
+  grid-template-columns: 5% 45% 45%;
+  padding: 10px;
+  gap: 10px;
+}
+
+main .btn {
+  --colour: #0000ff;
+  border: 1px solid black;
+  background-color: var(--colour);
+  color: white;
+  border-radius: 5px;
+  outline: none;
+  padding: 5px 10px;
+  transition: all 0.2s ease;
+  z-index: 10;
+}
+
+
+main .textToCopy{
+  overflow-y: auto;
+  /* width: 50%; */
+  border: 2px solid black;
+  border-radius: 4px;
+  max-height: 100%;
+  text-align: center;
+  /* padding: 20px 0; */
+  font-size: 15px;
+  left: 0;
+  word-break: break-all;
+  padding: 20px;
+  margin: 20px;
+}
+
+main .termDisplay{
+  --height: 100px;
+  height: var(--height);
+  overflow-y: auto;
+  /* width: 50%; */
+  border: 2px solid black;
+  border-radius: 4px;
+  max-height: 100%;
+  text-align: center;
+  padding: 20px 0;
+  font-size: 15px;
+  left: 0;
+  word-break: break-all;
+}
+
+main .questionNumberDisplay{
+  justify-content: center;
+  text-align: center;
+  padding: 10px 0;
+  font-size: 20px;
+  color: #888;
+
+
+}
+
+main p{
+  margin-top: 3px;
+  margin-left: 2px;
+}
+
+main .paragraphImage{
+  float: left;
+  height: 175px;
+  padding-right: 20px;
+}
+
+main .subtitle{
+  background-color: #AAA;
+  border: 1px solid #BBB;
+  padding: 2px 0 2px 2px;
+
+}
+
+main .btn:hover {
+  cursor:pointer;
+}
+main .btn:not(.hide):hover {
+  background-color: #0000aa
+}
