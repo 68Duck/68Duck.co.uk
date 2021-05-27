@@ -1,0 +1,112 @@
+{% extends "baseSPT.html" %}
+{% block title %}Main Page{% endblock %}
+{% block links %}<link rel="stylesheet" href="{{url_for('static',filename='indexStyleSPT.css')}}" type="text/css">{% endblock %}
+{% block scripts %} <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.13.5/xlsx.full.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.13.5/jszip.js"></script><script src="http://code.jquery.com/jquery-1.11.0.min.js"></script> <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" type="text/javascript"></script><script src="{{url_for('static', filename='indexAppSPT.js')}}" charset="utf-8"></script><script src="{{url_for('static', filename='sorttableSPT.js')}}" type="text/javascript"></script>
+{% endblock %}
+{% block header %}
+Home
+{% endblock %}
+<!DOCTYPE html>
+{% block content %}
+{% if alerts %}
+<div class="alertDiv">
+  {% for alert in alerts %}
+  <p class="alert">{{alert}}</p>
+  {% endfor %}
+</div>
+<br/>
+{% endif %}
+{% if messages %}
+<div class="messagesDiv">
+  {% for message in messages %}
+  <p class="message">{{message}}</p>
+  {% endfor %}
+</div>
+<br/>
+{% endif %}
+<!-- <form action="#" method = "post"> -->
+  <div class="tableBackground">
+    <button type="button" id="export" class="btn" onclick="tableToExcel('table')">Export List</button>
+    <table id="table" name="table" class="sortable">
+      <thead>
+        <tr>
+          {% for columnName in columnNames %}
+          <th>{{columnName[0]}}</th>
+          <!-- <th>id</th> -->
+          <!-- <th>test</th> -->
+          {% endfor %}
+        </tr>
+      </thead>
+      <br/>
+      {% for item in data %}
+      <!-- <br/> -->
+      <tr>
+        {% for i in range(columns) %}
+        <!-- <td>{{item[0]}}</td> -->
+        <!-- <td>{{item[1]}}</td> -->
+        <td contenteditable="true" name="tableItem" class=".tableItem" onchange="logTest()">{{item[i]}}</td>
+        {% endfor %}
+
+      </tr>
+      {% endfor %}
+    </table>
+    <br/>
+    <p><input type="submit" class = "btn" value="Add row" onclick="addTableRow()"/>
+      <br/><br/>
+      <input type="submit" class="btn" value="Save Table" onclick="saveTable()" style="left : 50px;">
+      <input type="text" id="saveTableName" placeholder="Table Name">
+    </p>
+  </div>
+  <br/>
+  <br/>
+  <div class="tableSearch">
+    <p>Search table</p>
+    <br/>
+    <input id="searchInput" placeholder="Search Value">
+    <br/>
+    <select id="searchColumnName">
+      {% for columnName in columnNames %}
+      <option value="{{columnName[0]}}">{{columnName[0]}}</option>
+      {% endfor %}
+    </select>
+    <br/>
+    <p>
+      <input class="btn" type = "submit" value="Search" onclick="searchTable()"/>
+    </p>
+
+  </div>
+<br/>
+<br/>
+<div id="openTableDiv" class="openTable">
+<span>
+  <input type="file" id = "fileInput" name="inputFile">
+  <a href="#">
+    <input type="submit" class="btn" value="Open Excel File" onclick="Upload()">
+  </a>
+</span>
+  <br/>
+  <select id="openTableName">
+    {% for tableName in tables %}
+    <option value="{{tableName[0]}}">{{tableName[0]}}</option>
+    {% endfor %}
+  </select>
+  <br/>
+  <a href="#">
+    <input type="submit" class="btn" value="Open Table" onclick="openTableFromDatabase()">
+  </a>
+</div>
+  <!-- <p><input type="text" name="test2"/></p> -->
+  <!-- <form action="/backgroundTest" method = "post">
+    <button name="testButton" type = "submit">Test2</button>
+  </form>
+  <a href="#" id="test"><button class="btn btn-deafult">Test</button></a>
+</form> -->
+
+<!-- <button onclick="getTableInformation()">Test3</button> -->
+<!-- <button type="button" onclick="sendPost()" >Test4</button> -->
+{% endblock %}
+
+{% block footer %}
+<p>Senior Prefect Database for senior prefects 2021/2022 at RGSHW created by Joshua Henry</p>
+{% endblock %}
