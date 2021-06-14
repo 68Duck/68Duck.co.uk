@@ -5,13 +5,14 @@ import sqlite3
 from flask import g,Flask,render_template,request
 from os import path
 
-
 fileDir = path.dirname(__file__) # for loading images
 
 app = Flask(__name__)   #creates the application flask
 
-DATABASE = 'flaskTest.db'
-currentTableName = "test2"
+app.secret_key = "b6jF" #sets secret key for encription i.e. my encription + first words quack
+
+DATABASE = '//var//www//webApp//webApp//flaskTest.db'
+currentTableName = None
 alerts = []
 messages = []
 
@@ -34,10 +35,10 @@ def clearAlertsAndMessages():
 
 def getIndexPage(tableName,tableData = None):
     global alerts,messages
-    columnNames = query_db(f"SELECT t.name FROM pragma_table_info('{tableName}') t")
+    columnNames = query_db("SELECT name FROM pragma_table_info('{0}') ".format(tableName))
     # print(columnNames)
     if tableData is None:
-        data = query_db(f"SELECT * FROM {tableName};")
+        data = query_db("SELECT * FROM {0};".format(tableName))
     else:
         data = tableData
     if len(data)>0:
@@ -49,7 +50,7 @@ def getIndexPage(tableName,tableData = None):
 
 def updateTable(tableName,records):
     clearAlertsAndMessages()
-    sql1 = f'DELETE FROM {str(tableName)}'
+    sql1 = 'DELETE FROM {0}'.format(str(tableName))
     query_db(sql1)
 
     for record in records:
@@ -57,7 +58,7 @@ def updateTable(tableName,records):
         columns = "?"
         for i in range(len(record)-1):
             columns = columns + ",?"
-        sql2 = f'INSERT INTO {tableName} VALUES({columns})'
+        sql2 = 'INSERT INTO {0} VALUES({1})'.format(tableName,columns)
         query_db(sql2,record)
     get_db().commit()
 
@@ -78,7 +79,7 @@ def tableUpdate():
     return ("nothing")
 
 def searchSQLTable(tableName,columnName,searchValue):
-    sql1 =f"SELECT * FROM {tableName} WHERE {columnName} = '{searchValue}'"
+    sql1 ="SELECT * FROM {0} WHERE {1} = '{2}'".format(tableName,columnName,searchValue)
     data = query_db(sql1)
     return data
 
@@ -110,27 +111,27 @@ def createCurrentTableFromSearch(tableData):
         columns = "?"
         for i in range(len(record)-1):
             columns = columns + ",?"
-        sql2 = f'INSERT INTO "Current" VALUES({columns})'
+        sql2 = 'INSERT INTO "Current" VALUES({0})'.format(columns)
         query_db(sql2,record)
     get_db().commit()
     if len(query_db("SELECT * FROM Current")) == 0:
         print("There are no rows that fit that criteria")
 
 def createCurrentTable(tableName):
-    columnNames = query_db(f"SELECT t.name FROM pragma_table_info('{tableName}') t")
+    columnNames = query_db("SELECT name FROM pragma_table_info('{0}')".format(tableName))
     columnInformation = ""
     for column in columnNames:
-        columnInformation = columnInformation + f"{column[0]} TEXT NOT NULL,"
+        columnInformation = columnInformation + "{0} TEXT NOT NULL,".format(column[0])
     columnInformation = columnInformation[0:len(columnInformation)-1]
     # print(columnInformation)
-    data = query_db(f"SELECT * FROM {tableName};")
+    data = query_db("SELECT * FROM {0};".format(tableName))
     query_db("DROP TABLE IF EXISTS Current")
-    query_db(f"CREATE TABLE 'Current' ({columnInformation})")
+    query_db("CREATE TABLE 'Current' ({0})".format(columnInformation))
     for record in data:
         columns = "?"
         for i in range(len(record)-1):
             columns = columns + ",?"
-        sql2 = f'INSERT INTO "Current" VALUES({columns})'
+        sql2 = 'INSERT INTO "Current" VALUES({0})'.format(columns)
         query_db(sql2,record)
     get_db().commit()
 
@@ -151,22 +152,27 @@ def createCurrentTableFromData(data):
         column = column.replace(" ","_")
         if column == "":
             column = "blank"
-        columnInformation = columnInformation + f"{column} TEXT NOT NULL,"
+        columnInformation = columnInformation + "{0} TEXT NOT NULL,".format(column)
     columnInformation = columnInformation[0:len(columnInformation)-1]
     print(columnInformation)
     query_db("DROP TABLE IF EXISTS Current")
-    query_db(f"CREATE TABLE 'Current' ({columnInformation})")
+    query_db(("CREATE TABLE 'Current' ({0})").format(columnInformation))
     for record in data:
         record = list(record.values())
         # print(record)
         columns = "?"
         for i in range(len(record)-1):
             columns = columns + ",?"
-        sql2 = f'INSERT INTO "Current" VALUES({columns})'
+        sql2 = 'INSERT INTO "Current" VALUES({0})'.format(columns)
         # print(sql2)
         query_db(sql2,record)
     get_db().commit()
 
+def createBlankCurrentTable():
+    columnInformation = "blank TEXT NOT NULL"
+    query_db("DROP TABLE IF EXISTS Current")
+    query_db(("CREATE TABLE 'Current' ({0})").format(columnInformation))
+    get_db().commit()
 
 @app.route('/openTable',methods=["POST"])
 def openTable():
@@ -186,7 +192,10 @@ def spt():
     # createCurrentTable(currentTableName)
     if not checkIfTableExisits("Current"):
         global currentTableName
-        createCurrentTable(currentTableName)
+        if currentTableName is None:
+            createBlankCurrentTable()
+        else:
+            createCurrentTable(currentTableName)
     return getIndexPage("Current")
 
 
@@ -206,19 +215,19 @@ def openExcelFile():
 
 
 def convertCurrentToCurrentOpenTable(tableName):
-    columnNames = query_db(f"SELECT t.name FROM pragma_table_info('Current') t")
+    columnNames = query_db("SELECT t.name FROM pragma_table_info('Current') t")
     columnInformation = ""
     for column in columnNames:
-        columnInformation = columnInformation + f"{column[0]} TEXT NOT NULL,"
+        columnInformation = columnInformation + "{0} TEXT NOT NULL,".format(column[0])
     columnInformation = columnInformation[0:len(columnInformation)-1]
     # print(columnInformation)
-    data = query_db(f"SELECT * FROM Current;")
-    query_db(f"CREATE TABLE '{tableName}' ({columnInformation})")
+    data = query_db("SELECT * FROM Current;")
+    query_db("CREATE TABLE '{0}' ({1})".format(tableName,columnInformation))
     for record in data:
         columns = "?"
         for i in range(len(record)-1):
             columns = columns + ",?"
-        sql2 = f'INSERT INTO "{tableName}" VALUES({columns})'
+        sql2 = 'INSERT INTO "{0}" VALUES({1})'.format(tableName,columns)
         query_db(sql2,record)
     get_db().commit()
 
@@ -253,7 +262,7 @@ def saveTable():
             global currentTableName
             currentTableName = data
             convertCurrentToCurrentOpenTable(currentTableName)
-            messages.append(f"The table was successfully saved as '{currentTableName}'")
+            messages.append("The table was successfully saved as '{0}'".format(currentTableName))
     return ("nothing")
 
 def query_db(query, args=(), one=False):
@@ -266,7 +275,7 @@ def getTableNames():
     return query_db("SELECT name FROM sqlite_master WHERE type='table';")
 
 def checkIfTableExisits(tableName):  #returns true or false if exisits or not
-    results = query_db(f'SELECT name FROM sqlite_master WHERE type="table" AND name="{tableName}";')
+    results = query_db('SELECT name FROM sqlite_master WHERE type="table" AND name="{0}";'.format(tableName))
     if len(results)==1:
         return True
     else:
