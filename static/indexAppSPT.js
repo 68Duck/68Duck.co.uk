@@ -109,6 +109,8 @@ function addTableRow(){
   var tbody = table.querySelector("tbody")
   var count = 0
   var rowsCount = 1   // as the id starts at one
+
+
   var tr = tbody.querySelector("tr")
   tbody.querySelectorAll("tr").forEach(tr =>{
     rowsCount++
@@ -116,6 +118,7 @@ function addTableRow(){
   tr.querySelectorAll("td").forEach(td =>{
     count++
   })
+
   newRow = document.createElement("tr")
   for (var i=0;i<count;i++){
     newElement = document.createElement("td")
@@ -178,7 +181,6 @@ function getTableInformation (){
       rows.push(row)
     })
   })
-  // console.log(rows)
   return rows
 }
 
@@ -317,3 +319,42 @@ function saveTable() {
         window.scrollTo(0, 0);
   }
 }
+
+
+function addNewColumnForNewTable() {
+  var inputs = document.getElementById("columnNamesInputs")
+  newColumnInput = document.createElement("input")
+  newColumnInput.setAttribute("placeholder","Enter the column name")
+  newColumnInput.classList.add("newColumnInput")
+  inputs.appendChild(newColumnInput)
+}
+
+const createTableRequest = async (information) => {
+  const url = '/createNewTable'; // the URL to send the HTTP request to
+  const body = JSON.stringify(information); // whatever you want to send in the body of the HTTP request
+  const headers = {'Content-Type': 'application/json'}; // if you're sending JSON to the server
+  const method = 'POST';
+  const response = await fetch(url, { method, body, headers });
+  const data = await response.text(); // or response.json() if your server returns JSON
+  // console.log(data);
+  window.location.reload()
+}
+
+function createNewTable(){
+  columns = new Array()
+  var tableName = document.getElementById("createTableNameInput").value
+  columns.push(tableName)
+  var tableColumns = document.querySelectorAll(".newColumnInput").forEach((item, i) => {
+    columns.push(item.value)
+  });
+  createTableRequest(columns)
+
+}
+
+
+
+function main(){
+  addNewColumnForNewTable()
+}
+
+main()

@@ -11,7 +11,7 @@ app = Flask(__name__)   #creates the application flask
 
 app.secret_key = "b6jF" #sets secret key for encription i.e. my encription + first words quack
 
-DATABASE = '//var//www//webApp//webApp//flaskTest.db'
+DATABASE = 'flaskTest.db'
 currentTableName = None
 alerts = []
 messages = []
@@ -46,7 +46,12 @@ def getIndexPage(tableName,tableData = None):
     else:
         columns = 0
     tables = query_db("SELECT name FROM sqlite_master WHERE type='table' AND NOT (name = 'sqlite_sequence' OR name='Current');")
-    return render_template("indexSPT.html",data=data,columns=columns,columnNames=columnNames,tables=tables,alerts=alerts,messages=messages)
+    global currentTableName
+    if currentTableName is None:
+        tableName = ""
+    else:
+        tableName = currentTableName
+    return render_template("indexSPT.html",data=data,columns=columns,columnNames=columnNames,tables=tables,alerts=alerts,messages=messages,currentlyOpenTableName=tableName)
 
 def updateTable(tableName,records):
     clearAlertsAndMessages()
@@ -59,7 +64,21 @@ def updateTable(tableName,records):
         for i in range(len(record)-1):
             columns = columns + ",?"
         sql2 = 'INSERT INTO {0} VALUES({1})'.format(tableName,columns)
+        print(sql2,record)
         query_db(sql2,record)
+        # try:
+        # except:
+            # done = False
+            # while not done:
+            #     nulls = ["NULL"]
+            #     for i in range(len(nulls)-1):
+            #         columns = columns + ",?"
+            #     query_db("INSERT INTO {0} VALUES({1})".format(tableName,columns),nulls)
+            #     try:
+            #         query_db("INSERT INTO {0} VALUES({1})".format(tableName,columns),nulls)
+            #         done=True
+            #     except:
+            #         nulls.append("NULL")
     get_db().commit()
 
 
@@ -121,7 +140,7 @@ def createCurrentTable(tableName):
     columnNames = query_db("SELECT name FROM pragma_table_info('{0}')".format(tableName))
     columnInformation = ""
     for column in columnNames:
-        columnInformation = columnInformation + "{0} TEXT NOT NULL,".format(column[0])
+        columnInformation = columnInformation + "'{0}' TEXT,".format(column[0])
     columnInformation = columnInformation[0:len(columnInformation)-1]
     # print(columnInformation)
     data = query_db("SELECT * FROM {0};".format(tableName))
@@ -152,7 +171,7 @@ def createCurrentTableFromData(data):
         column = column.replace(" ","_")
         if column == "":
             column = "blank"
-        columnInformation = columnInformation + "{0} TEXT NOT NULL,".format(column)
+        columnInformation = columnInformation + "{0} TEXT,".format(column)
     columnInformation = columnInformation[0:len(columnInformation)-1]
     print(columnInformation)
     query_db("DROP TABLE IF EXISTS Current")
@@ -169,7 +188,7 @@ def createCurrentTableFromData(data):
     get_db().commit()
 
 def createBlankCurrentTable():
-    columnInformation = "blank TEXT NOT NULL"
+    columnInformation = "blank TEXT "
     query_db("DROP TABLE IF EXISTS Current")
     query_db(("CREATE TABLE 'Current' ({0})").format(columnInformation))
     get_db().commit()
@@ -190,11 +209,11 @@ def openTable():
 @app.route('/spt',methods=["GET","POST"])
 def spt():
     # createCurrentTable(currentTableName)
-    if not checkIfTableExisits("Current"):
-        global currentTableName
-        if currentTableName is None:
-            createBlankCurrentTable()
-        else:
+    global currentTableName
+    if currentTableName is None:
+        createBlankCurrentTable()
+    else:
+        if not checkIfTableExisits("Current"):
             createCurrentTable(currentTableName)
     return getIndexPage("Current")
 
@@ -218,10 +237,11 @@ def convertCurrentToCurrentOpenTable(tableName):
     columnNames = query_db("SELECT t.name FROM pragma_table_info('Current') t")
     columnInformation = ""
     for column in columnNames:
-        columnInformation = columnInformation + "{0} TEXT NOT NULL,".format(column[0])
+        columnInformation = columnInformation + "'{0}' TEXT,".format(column[0])
     columnInformation = columnInformation[0:len(columnInformation)-1]
-    # print(columnInformation)
+    print(columnInformation)
     data = query_db("SELECT * FROM Current;")
+    query_db("DROP TABLE IF EXISTS '{0}'".format(tableName))
     query_db("CREATE TABLE '{0}' ({1})".format(tableName,columnInformation))
     for record in data:
         columns = "?"
@@ -251,10 +271,10 @@ def saveTable():
             tableNamesArray = []
             for name in tableNames:
                 tableNamesArray.append(name[0])
-            if data in tableNamesArray:
-                alerts.append("There is already a table with that name")
-                print("There is already a table with that name")
-                return ("nothing")
+            # if data in tableNamesArray:
+            #     alerts.append("There is already a table with that name")
+            #     print("There is already a table with that name")
+            #     return ("nothing")
             if data == "":
                 alerts.append("The table name cannot be blank")
                 print("The table name cannot be blank")
@@ -263,6 +283,63 @@ def saveTable():
             currentTableName = data
             convertCurrentToCurrentOpenTable(currentTableName)
             messages.append("The table was successfully saved as '{0}'".format(currentTableName))
+    return ("nothing")
+
+def createNewBlankTable(columns,tableName):
+    columnInformation = ""
+    for i,column in enumerate(columns):
+        if i==len(columns)-1:
+            columnInformation = columnInformation + "'{0}' TEXT".format(column)
+        else:
+            columnInformation  = columnInformation + "'{0}' TEXT".format(column) + ","
+    print(columnInformation)
+    sql1 = "CREATE TABLE {0} ({1})".format(tableName,columnInformation)
+    query_db(sql1)
+    record = []
+    for i in range(len(columns)):
+        record.append("")
+    if len(record) > 0:
+        record[0] = 1
+    questionMarks = "?"
+    for i in range(len(record)-1):
+        questionMarks = questionMarks + ",?"
+    sql2 = "INSERT INTO {0} VALUES({1})".format(tableName,questionMarks)
+    query_db(sql2,record)
+    get_db().commit()
+    return True
+
+@app.route('/createNewTable',methods=["POST"])
+def createNewTable():
+    clearAlertsAndMessages()
+    data = request.get_json()
+    print(data)
+    if data is None:
+        return ("nothing")
+    else:
+        try:
+            tableName = data[0]
+        except:
+            alerts.append("The data was not sent correctly. Please try again")
+            return ("nothing")
+        if hasNumbersOrSpaces(tableName):
+            alerts.append("The table name has a space or number. Please try a different name.")
+            print("the table name as a space or number")
+            return("nothing")
+        if len(data) == 1:
+            alerts.append("Please create at least one table name before creating the table.")
+            return ("nothing")
+        if checkIfTableExisits(tableName):
+            alerts.append("That table name already exists. Please try again")
+            return ("nothing")
+
+        columnNames = data[1:]
+        createBlankCurrentTable()
+        createNewBlankTable(columnNames,tableName)
+        global currentTableName
+        currentTableName = tableName
+        createCurrentTable(tableName)
+
+
     return ("nothing")
 
 def query_db(query, args=(), one=False):
