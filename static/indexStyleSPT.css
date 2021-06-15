@@ -62,6 +62,8 @@ tr:nth-child(even) {
   display: grid;
   align-items: center;
   justify-content: center;
+  box-shadow: 0 0 10px 2px;
+  color: green;
 
 }
 .message{
@@ -92,6 +94,30 @@ tr:nth-child(even) {
   transition: all 0.5s ease;
   position: relative;
   display: grid;
+
+}
+
+
+.createNewTableDiv{
+  background-color: white;
+  color: black;
+  width: 80vw;
+  border-radius: 5px;
+  left: 9.3vw;
+  padding: 10px;
+  box-shadow: 0 0 10px 2px;
+  transition: all 0.5s ease;
+  position: relative;
+  display: grid;
+
+}
+
+.newColumnInput{
+  padding:5px;
+  width:100%;
+  top:5px;
+  align-items: center;
+  justify-content: center;
 
 }
 
