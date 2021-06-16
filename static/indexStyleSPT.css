@@ -112,6 +112,19 @@ tr:nth-child(even) {
 
 }
 
+.delteTableDiv{
+  background-color: white;
+  color: black;
+  width: 80vw;
+  border-radius: 5px;
+  left: 9.3vw;
+  padding: 10px;
+  box-shadow: 0 0 10px 2px;
+  transition: all 0.5s ease;
+  position: relative;
+  display: grid;
+}
+
 .newColumnInput{
   padding:5px;
   width:100%;

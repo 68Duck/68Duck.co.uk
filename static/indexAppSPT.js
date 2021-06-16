@@ -327,6 +327,8 @@ function addNewColumnForNewTable() {
   newColumnInput.setAttribute("placeholder","Enter the column name")
   newColumnInput.classList.add("newColumnInput")
   inputs.appendChild(newColumnInput)
+  inputs.appendChild(document.createElement('br'))
+  inputs.appendChild(document.createElement('br'))
 }
 
 const createTableRequest = async (information) => {
@@ -351,6 +353,27 @@ function createNewTable(){
 
 }
 
+const deleteTableRequest = async (tableName) => {
+  const url = '/deleteTable'; // the URL to send the HTTP request to
+  const body = JSON.stringify(tableName); // whatever you want to send in the body of the HTTP request
+  const headers = {'Content-Type': 'application/json'}; // if you're sending JSON to the server
+  const method = 'POST';
+  const response = await fetch(url, { method, body, headers });
+  const data = await response.text(); // or response.json() if your server returns JSON
+  // console.log(data);
+  window.location.reload()
+}
+
+
+function deleteTableFromDatabase(){
+  if (confirm("Are you sure you want to delete the table?")){
+    var deleteTableName = document.getElementById("deleteTableName")
+    var tableName = deleteTableName.value
+    deleteTableRequest(tableName)
+  }else{
+    //do nothing if cancel is pressed
+  }
+}
 
 
 function main(){

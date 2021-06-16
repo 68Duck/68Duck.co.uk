@@ -308,6 +308,22 @@ def createNewBlankTable(columns,tableName):
     get_db().commit()
     return True
 
+
+@app.route('/deleteTable',methods=["POST"])
+def deleteTable():
+    clearAlertsAndMessages()
+    data = request.get_json()
+    if data is None:
+        return ("nothing")
+    else:
+        sql1 = "DROP TABLE {0}".format(data)
+        query_db(sql1)
+        get_db().commit()
+        global currentTableName
+        if currentTableName == data:
+            createBlankCurrentTable()
+    return ("nothing")
+
 @app.route('/createNewTable',methods=["POST"])
 def createNewTable():
     clearAlertsAndMessages()

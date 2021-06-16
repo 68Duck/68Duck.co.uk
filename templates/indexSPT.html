@@ -5,7 +5,7 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.13.5/jszip.js"></script><script src="http://code.jquery.com/jquery-1.11.0.min.js"></script> <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" type="text/javascript"></script><script src="{{url_for('static', filename='indexAppSPT.js')}}" charset="utf-8"></script><script src="{{url_for('static', filename='sorttableSPT.js')}}" type="text/javascript"></script>
 {% endblock %}
 {% block header %}
-Home
+Senior Prefect Database
 {% endblock %}
 <!DOCTYPE html>
 {% block content %}
@@ -109,6 +109,21 @@ Home
   <div id="columnNamesInputs" class="columnNamesInputs"></div>
   <br/>
   <input type="submit" class="btn" style="width:20%" value="Submit" onclick="createNewTable()">
+</div>
+<br/>
+<div class="delteTableDiv">
+  <h4>Delete Table:</h4>
+  <br/>
+  <select id="deleteTableName">
+    {% for tableName in tables %}
+    <option value="{{tableName[0]}}">{{tableName[0]}}</option>
+    {% endfor %}
+  </select>
+  <br/>
+  <a href="#">
+
+    <input type="submit" class="btn" value="Delete Table" onclick="deleteTableFromDatabase()">
+  </a>
 </div>
   <!-- <p><input type="text" name="test2"/></p> -->
   <!-- <form action="/backgroundTest" method = "post">
