@@ -115,9 +115,13 @@ function addTableRow(){
   tbody.querySelectorAll("tr").forEach(tr =>{
     rowsCount++
   })
-  tr.querySelectorAll("td").forEach(td =>{
-    count++
-  })
+  if (tr == null) {
+    var count = 1
+  }else{
+    tr.querySelectorAll("td").forEach(td =>{
+      count++
+    })
+  }
 
   newRow = document.createElement("tr")
   for (var i=0;i<count;i++){
