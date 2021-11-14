@@ -375,11 +375,11 @@ def checkIfTableExisits(tableName):  #returns true or false if exisits or not
         return False
 
 
-
+currentPrice = "£25.00"
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    return render_template("index.html",currentPrice = currentPrice)
 
 @app.route("/createFile")
 def createFile():
@@ -391,11 +391,11 @@ def learn():
 
 @app.route("/11+Tutoring")
 def elevenPlusTutoring():
-    return render_template("11+Tutoring.html")
+    return render_template("11+Tutoring.html",currentPrice = currentPrice)
 
 @app.route("/computingAndMathsTutoring")
 def computingAndMathsTutoring():
-    return render_template("computingAndMathsTutoring.html")
+    return render_template("computingAndMathsTutoring.html",currentPrice = currentPrice)
 
 
 if __name__ == "__main__":      #runs the application
