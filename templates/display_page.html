@@ -1,0 +1,55 @@
+{% extends "qr_display_base.html" %}
+{% block title %}Info Page{% endblock %}
+{% block links %}<link rel="stylesheet" href="{{url_for('static',filename='qr_display_style.css')}}" type="text/css">{% endblock %}
+{% block scripts %}
+{% endblock %}
+{% block header %}
+QR code information
+{% endblock %}
+<!DOCTYPE html>
+{% block content %}
+<div id="group_name" class="group_id_box">
+  group_id = {{group_id}}
+</div>
+<br/>
+<div class="tableBackground">
+  <table id="table" name="table" class="sortable">
+    <thead>
+      <tr>
+        {% for column_name in column_names %}
+        <th>{{column_name}}</th>
+        <!-- <th>id</th> -->
+        <!-- <th>test</th> -->
+        {% endfor %}
+      </tr>
+    </thead>
+    <br/>
+    <tbody>
+      {% for item in data %}
+      <!-- <br/> -->
+      <tr>
+        {% for i in range(columns) %}
+        <!-- <td>{{item[0]}}</td> -->
+        <!-- <td>{{item[1]}}</td> -->
+        <td contenteditable="false" name="tableItem" class=".tableItem" onchange="logTest()">{{item[i]}}</td>
+        {% endfor %}
+
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+<br/>
+<div class="pie_chart">
+  <h4>Pie Chart:</h4>
+  <br/>
+  <div class="chart" style="{{pie_chart_composition}}">
+
+  </div>
+</div>
+
+{% endblock %}
+
+{% block footer %}
+<p>Info base for qr code</p>
+{% endblock %}

@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>QR submit</title>
+  </head>
+  <body>
+    {% if forename %}
+    Welcome {{forename}} {{surname}}
+    Thank you for submitting your QR code
+    {% else %}
+    <h2 style="color:red">ERROR. Person could not be found</h2>
+    {% endif %}
+  </body>
+</html>

@@ -1,0 +1,142 @@
+{% extends "baseLog.html" %}
+{% block title %}Main Page{% endblock %}
+{% block links %}<link rel="stylesheet" href="{{url_for('static',filename='indexStyleLog.css')}}" type="text/css">{% endblock %}
+{% block scripts %} <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.13.5/xlsx.full.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.13.5/jszip.js"></script><script src="http://code.jquery.com/jquery-1.11.0.min.js"></script> <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" type="text/javascript"></script><script src="{{url_for('static', filename='indexAppLog.js')}}" charset="utf-8"></script><script src="{{url_for('static', filename='sorttableLog.js')}}" type="text/javascript"></script>
+{% endblock %}
+{% block header %}
+Tutor Log
+{% endblock %}
+<!DOCTYPE html>
+{% block content %}
+{% if alerts %}
+<div class="alertDiv">
+  {% for alert in alerts %}
+  <p class="alert">{{alert}}</p>
+  {% endfor %}
+</div>
+<br/>
+{% endif %}
+{% if messages %}
+<div class="messagesDiv">
+  {% for message in messages %}
+  <p class="message">{{message}}</p>
+  {% endfor %}
+</div>
+<br/>
+{% endif %}
+
+<div class="tableDiv background">
+  <button type="button" id="export" class="btn" onclick="tableToExcel('table')">Export Table</button>
+  <table id="table" name="table" class="sortable">
+    <thead>
+      <tr>
+        {% for columnName in columnNames %}
+        <th>{{columnName[0]}}</th>
+        {% endfor %}
+      </tr>
+    </thead>
+    <br/>
+    <tbody>
+      {% for item in data %}
+      <tr>
+        {% for i in range(columns) %}
+        {% if i == 4 %}
+        {% if item[i] == "1"%}
+        <td><input type="checkbox" name="checkbox" checked></td>
+        {% else %}
+        <td><input type="checkbox" name="checkbox"></td>
+        {% endif %}
+        {% elif i==1 %}
+        <td><input type="date" value="{{item[i]}}"></td>
+        {% elif i==2 %}
+        <td><input type="time" value={{item[i]}}></td>
+        {% elif i==3 %}
+        <td><input type="number" step="any" value={{item[i]}}></td>
+        {% else %}
+        <td contenteditable="true" name="tableItem" class=".tableItem" onchange="logTest()">{{item[i]}}</td>
+        {% endif %}
+        {% endfor %}
+
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <br/>
+    <p><input type="submit" class = "btn" value="Add row" onclick="addTableRow()"/>
+      <br/><br/>
+      <input type="submit" class="btn" value="Save Table" onclick="saveTable()" style="left : 50px;">
+      <input type="text" id="saveTableName" placeholder="Table Name" value="{{ currentlyOpenTableName }}">
+    </p>
+  <br/>
+  <table id="calcs" name="calcs"><thead></thead><tbody id="calcTBody"></tbody></table>
+  </div>
+
+  <br/>
+  <br/>
+
+  <div class="tableSearch background">
+      <h4>Search Table:</h4>
+      <br/>
+      <input id="searchInput" placeholder="Search Value">
+      <br/>
+      <select id="searchColumnName">
+        {% for columnName in columnNames %}
+        <option value="{{columnName[0]}}">{{columnName[0]}}</option>
+        {% endfor %}
+      </select>
+      <br/>
+      <p>
+        <input class="btn" type = "submit" value="Search" onclick="searchTable()"/>
+      </p>
+
+    </div>
+  <br/>
+  <br/>
+  <div id="openTableDiv" class="openTable background">
+    <h4>Open Table:</h4><br/>
+  <span>
+    <input type="file" id = "fileInput" name="inputFile">
+    <a href="#">
+      <input type="submit" class="btn" value="Open Excel File" onclick="Upload()">
+    </a>
+  </span>
+    <br/>
+    <select id="openTableName">
+      {% for tableName in tables %}
+      <option value="{{tableName[0]}}">{{tableName[0]}}</option>
+      {% endfor %}
+    </select>
+    <br/>
+    <a href="#">
+      <input type="submit" class="btn" value="Open Table" onclick="openTableFromDatabase()">
+    </a>
+  </div>
+  <br/>
+  <div class="createNewTable background">
+    <h4>Create new Table:</h4><br/>
+    <input type="text" id="createTableNameInput" placeholder="Enter the name of the table">
+    <br/>
+    <input type="submit" class="btn" style="width:20%" value="Submit" onclick="createNewTable()">
+  </div>
+  <br/>
+  <div class="delteTableDiv background">
+    <h4>Delete Table:</h4>
+    <br/>
+    <select id="deleteTableName">
+      {% for tableName in tables %}
+      <option value="{{tableName[0]}}">{{tableName[0]}}</option>
+      {% endfor %}
+    </select>
+    <br/>
+    <a href="#">
+
+      <input type="submit" class="btn" value="Delete Table" onclick="deleteTableFromDatabase()">
+    </a>
+  </div>
+
+{% endblock %}
+
+{% block footer %}
+<p>Tutor Log</p>
+{% endblock %}

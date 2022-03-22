@@ -1,0 +1,83 @@
+{% extends "infoBase.html" %}
+{% block title %}Info Page{% endblock %}
+{% block links %}<link rel="stylesheet" href="{{url_for('static',filename='indexStyleInfo.css')}}" type="text/css">{% endblock %}
+{% block scripts %} <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.13.5/xlsx.full.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.13.5/jszip.js"></script><script src="http://code.jquery.com/jquery-1.11.0.min.js"></script> <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" type="text/javascript"></script><script src="{{url_for('static', filename='indexAppInfo.js')}}" charset="utf-8"></script><script src="{{url_for('static', filename='sorttableInfo.js')}}" type="text/javascript"></script>
+{% endblock %}
+{% block header %}
+Senior Prefect Database
+{% endblock %}
+<!DOCTYPE html>
+{% block content %}
+{% if alerts %}
+<div class="alertDiv">
+  {% for alert in alerts %}
+  <p class="alert">{{alert}}</p>
+  {% endfor %}
+</div>
+<br/>
+{% endif %}
+{% if messages %}
+<div class="messagesDiv">
+  {% for message in messages %}
+  <p class="message">{{message}}</p>
+  {% endfor %}
+</div>
+<br/>
+{% endif %}
+<!-- <form action="#" method = "post"> -->
+  <div class="tableBackground">
+    <button type="button" id="export" class="btn" onclick="tableToExcel('table')">Export Table</button>
+    <table id="table" name="table" class="sortable">
+      <thead>
+        <tr>
+          {% for columnName in columnNames %}
+          <th>{{columnName[0]}}</th>
+          <!-- <th>id</th> -->
+          <!-- <th>test</th> -->
+          {% endfor %}
+        </tr>
+      </thead>
+      <br/>
+      <tbody>
+        {% for item in data %}
+        <!-- <br/> -->
+        <tr>
+          {% for i in range(columns) %}
+          <!-- <td>{{item[0]}}</td> -->
+          <!-- <td>{{item[1]}}</td> -->
+          <td contenteditable="true" name="tableItem" class=".tableItem" onchange="logTest()">{{item[i]}}</td>
+          {% endfor %}
+
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <br/>
+    <p><input type="submit" class = "btn" value="Reset Table" onclick="resetTable()"/>
+    </p>
+  </div>
+  <br/>
+  <br/>
+  <div class="tableSearch">
+    <h4>Search Table:</h4>
+    <br/>
+    <input id="searchInput" placeholder="Search Value">
+    <br/>
+    <select id="searchColumnName">
+      {% for columnName in columnNames %}
+      <option value="{{columnName[0]}}">{{columnName[0]}}</option>
+      {% endfor %}
+    </select>
+    <br/>
+    <p>
+      <input class="btn" type = "submit" value="Search" onclick="searchTable()"/>
+    </p>
+
+  </div>
+
+{% endblock %}
+
+{% block footer %}
+<p>Senior Prefect Database for senior prefects 2021/2022 at RGSHW created by Joshua Henry</p>
+{% endblock %}
