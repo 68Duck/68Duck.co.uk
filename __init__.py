@@ -943,6 +943,51 @@ def confirm_changes():
 
 
         return "All OK"
+
+'''
+SLST sign in
+'''
+
+
+def query_db_slst(query, args=(), one=False):
+    cur = get_db_slst().execute(query, args)
+    rv = cur.fetchall()
+    cur.close()
+    return (rv[0] if rv else None) if one else rv
+
+def get_db_slst():
+    DATABASE = "slst.db"
+    db = getattr(g, '_database', None)
+    if db is None:
+        db = g._database = sqlite3.connect(path.join(fileDir,DATABASE))
+    return db
+
+@app.teardown_appcontext  #closes the database when the file is closed
+def close_connection(exception):
+    db = getattr(g, '_database', None)
+    if db is not None:
+        db.close()
+
+
+@app.route("/slst_sign_in")
+def slst_sign_in():
+    names = query_db_slst("SELECT forename,surname,signed_in FROM sign_in")
+    # names = [["Test","Person"],["Josh","Henry"]]
+    return render_template("slst_index.html",names=names)
+
+@app.route("/slst_changes_made",methods=["POST"])
+def slst_changes_made():
+    data = request.get_json()
+    if data is None:
+        return "nothing"
+    else:
+        ids = query_db_slst("SELECT person_id FROM sign_in")
+        for i in range(len(data)):
+            query_db_slst("UPDATE sign_in SET signed_in = {0} WHERE person_id = {1}".format(data[i],ids[i][0]))
+            get_db_slst().commit()
+        return "nothing"
+
+
 '''
 Normal website
 '''

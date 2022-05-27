@@ -1,0 +1,50 @@
+{% extends "slst_base.html" %}
+{% block title %}Main Page{% endblock %}
+{% block links %}<link rel="stylesheet" href="{{url_for('static',filename='slst_index_style.css')}}" type="text/css">{% endblock %}
+{% block scripts %} <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.13.5/xlsx.full.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.13.5/jszip.js"></script><script src="http://code.jquery.com/jquery-1.11.0.min.js"></script> <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" type="text/javascript"></script><script src="{{url_for('static', filename='slst_index_app.js')}}" charset="utf-8"></script>
+{% endblock %}
+{% block header %}
+SLST sign in
+{% endblock %}
+{% block content %}
+
+<div class="paragraph">
+  <table class="table" id = "table">
+    <thead>
+      <tr>
+        <th>Forename</th>
+        <th>Surname</th>
+        <th>In the hall?</th>
+      </tr>
+    </thead>
+    <br/>
+    <tbody>
+      {% for name in names %}
+      <tr>
+        <td contenteditable="false">{{name[0]}}</td>
+        <td contenteditable="false">{{name[1]}}</td>
+        <td contenteditable="false" class="switch_table_item">
+          <label class="switch">
+            {% if name[2] %}
+            <input type="checkbox" onchange="change_made()" checked="true" class="input">
+            {% else %}
+            <input type="checkbox" onchange="change_made()" class="input">
+            {% endif %}
+            <span class="slider round"></span>
+          </label>
+        </td>
+        {% endfor %}
+      </tr>
+
+    </tbody>
+
+  </table>
+
+</div>
+
+{% endblock %}
+
+{% block footer %}
+<p>Sign in for SLST so we know when you are in/out of the hall</p>
+{% endblock %}
