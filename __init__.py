@@ -1,14 +1,18 @@
 import csv
-from datetime import timedelta
+from datetime import timedelta,datetime
 from os import path
 import sqlite3
-from flask import g,Flask,render_template,request
+from flask import g,Flask,render_template,request,make_response
 from flask_mail import Mail, Message
 from os import path
 import qrcode
 from dict_factory import dict_factory
 import hashlib
 import json
+import re
+import pdfkit
+from icalendar import Calendar, Event, vCalAddress, vText
+import pytz
 
 fileDir = path.dirname(__file__) # for loading images
 
@@ -525,7 +529,7 @@ class Table_plan_Login(object):
         app.config['MAIL_USE_TLS'] = False
         app.config['MAIL_USE_SSL'] = True
         app.config["MAIL_USERNAME"] = "test68duck@gmail.com"
-        app.config["MAIL_PASSWORD"] = "password123@"
+        app.config["MAIL_PASSWORD"] = "qlosiorsjujiuoga"
         subject = "Table Plan Link"
         message = "Hello {0} {1},\n\nThank you for logging into the table plan. Here is your link to the table plan:\n{2}\nPlease don't share this with anyone else since this link is unique to you and any changes made will be associated with this email, so any untoward behaviour will be able to be tracked to this email.\n\nIf you have any issues with this system or the table plan in general, don't hesitate to contact me on HenryJP@rgshw.com.\n\nRegards,\nJosh Henry".format(forename,surname,table_link)
         mail = Mail(app)
@@ -989,6 +993,326 @@ def slst_changes_made():
 
 
 '''
+Book a session
+'''
+
+class Book_a_session(object):
+    def __init__(self):
+        self.DATABASE = "book_a_session.db"
+
+    def query_db(self,query, args=()):
+        cur = self.get_db().execute(query, args)
+        cur.row_factory = dict_factory
+        rv = cur.fetchall()
+        cur.close()
+        self.get_db().commit()
+        return rv
+
+    def get_db(self):
+        db = getattr(g, '_database', None)
+        if db is None:
+            db = g._database = sqlite3.connect(path.join(fileDir,self.DATABASE))
+        return db
+
+    def send_login_email(self,email_record):
+        email_address = email_record["email"].lower()
+        link = self.get_table_link(email_address)
+        app.config['MAIL_SERVER']='smtp.gmail.com'
+        app.config['MAIL_PORT'] = 465
+        app.config['MAIL_USE_TLS'] = False
+        app.config['MAIL_USE_SSL'] = True
+        app.config["MAIL_USERNAME"] = "test68duck@gmail.com"
+        app.config["MAIL_PASSWORD"] = "qlosiorsjujiuoga"
+        subject = "68 Duck Tuition logon link"
+        message = render_template("book_a_session_logon_email_message.html",name=email_record["full_name"],link=link)
+        mail = Mail(app)
+        msg = Message(subject,sender="test68duck@gmail.com",recipients = [email_address])
+        msg.html = message
+        mail.send(msg)
+
+    def send_confirmation_email(self,email_record):
+        email_address = email_record["email"]
+        link = self.get_table_link(email_address)
+        app.config['MAIL_SERVER']='smtp.gmail.com'
+        app.config['MAIL_PORT'] = 465
+        app.config['MAIL_USE_TLS'] = False
+        app.config['MAIL_USE_SSL'] = True
+        app.config["MAIL_USERNAME"] = "test68duck@gmail.com"
+        app.config["MAIL_PASSWORD"] = "qlosiorsjujiuoga"
+        subject = "Booking confirmation"
+        message = render_template("book_a_session_confirmation_email.html",full_name=email_record["full_name"],name=email_record["name"],words_date=email_record["words_date"],time=email_record["time"],hour=email_record["hour"],mins=email_record["mins"])
+        mail = Mail(app)
+        msg = Message(subject,sender="test68duck@gmail.com",recipients = [email_address])
+        msg.html = message
+        mail.send(msg)
+
+    def send_approval_email(self,email_record):
+        email_address = "Josh@68duck.co.uk"
+        link = self.get_table_link(email_address)
+        app.config['MAIL_SERVER']='smtp.gmail.com'
+        app.config['MAIL_PORT'] = 465
+        app.config['MAIL_USE_TLS'] = False
+        app.config['MAIL_USE_SSL'] = True
+        app.config["MAIL_USERNAME"] = "test68duck@gmail.com"
+        app.config["MAIL_PASSWORD"] = "qlosiorsjujiuoga"
+        subject = "Booking approval"
+        message = render_template("book_a_session_approval_email.html",full_name=email_record["full_name"],name=email_record["name"],words_date=email_record["words_date"],time=email_record["time"],hour=email_record["hour"],mins=email_record["mins"])
+        mail = Mail(app)
+        msg = Message(subject,sender="test68duck@gmail.com",recipients = [email_address])
+        msg.html = message
+        mail.send(msg)
+
+    def send_approved_email(self,email_record):
+        cal = Calendar()
+        cal.add('attendee', 'MAILTO:josh68duck@gmail.com')
+
+        meeting_title = "Tutoring " + email_record["name"]
+
+        event = Event()
+        event.add('summary', meeting_title)
+        dt = email_record["date"] + " " + email_record["time"]
+        dt = datetime.strptime(dt,"%Y-%m-%d %H:%M")
+        event.add('dtstart', dt)
+        final_dt = dt + timedelta(hours=email_record["hour"],minutes=email_record["mins"])
+        event.add('dtend', final_dt)
+        # event.add('dtstamp', datetime(2022, 10, 24, 0, 10, 0, tzinfo=pytz.utc))
+
+        organizer = vCalAddress('MAILTO:test68duck@gmail.com')
+        organizer.params['cn'] = vText('Josh Henry')
+        organizer.params['role'] = vText('Tutor')
+        event['organizer'] = organizer
+        event['location'] = vText('Gerrards Cross, UK')
+
+        # Adding events to calendar
+        cal.add_component(event)
+
+        directory = fileDir + "/invites"
+        f = open(path.join(directory, 'invite.ics'), 'wb')
+        f.write(cal.to_ical())
+        f.close()
+
+        email_address = email_record["email"]
+        link = self.get_table_link(email_address)
+        app.config['MAIL_SERVER']='smtp.gmail.com'
+        app.config['MAIL_PORT'] = 465
+        app.config['MAIL_USE_TLS'] = False
+        app.config['MAIL_USE_SSL'] = True
+        app.config["MAIL_USERNAME"] = "test68duck@gmail.com"
+        app.config["MAIL_PASSWORD"] = "qlosiorsjujiuoga"
+        subject = "Booking approval"
+        message = render_template("book_a_session_approved_email.html",full_name=email_record["full_name"],name=email_record["name"],date=email_record["date"],time=email_record["time"],hour=email_record["hour"],mins=email_record["mins"],email=email_record["email"])
+        mail = Mail(app)
+        msg = Message(subject,sender="test68duck@gmail.com",recipients = [email_address])
+        msg.html = message
+        with app.open_resource(fileDir+"/invites/invite.ics") as fp:
+            msg.attach("invite.ics", "text/calendar", fp.read())
+        mail.send(msg)
+
+    def send_check_email(self,email_record):
+        cal = Calendar()
+        cal.add('attendee', 'MAILTO:josh68duck@gmail.com')
+
+        meeting_title = "Tutoring " + email_record["name"]
+
+        event = Event()
+        event.add('summary', meeting_title)
+        dt = email_record["date"] + " " + email_record["time"]
+        dt = datetime.strptime(dt,"%Y-%m-%d %H:%M")
+        event.add('dtstart', dt)
+        final_dt = dt + timedelta(hours=email_record["hour"],minutes=email_record["mins"])
+        event.add('dtend', final_dt)
+        # event.add('dtstamp', datetime(2022, 10, 24, 0, 10, 0, tzinfo=pytz.utc))
+
+        organizer = vCalAddress('MAILTO:test68duck@gmail.com')
+        organizer.params['cn'] = vText('Josh Henry')
+        organizer.params['role'] = vText('Tutor')
+        event['organizer'] = organizer
+        event['location'] = vText('Gerrards Cross, UK')
+
+        # Adding events to calendar
+        cal.add_component(event)
+
+        directory = fileDir + "/invites"
+        f = open(path.join(directory, 'invite.ics'), 'wb')
+        f.write(cal.to_ical())
+        f.close()
+
+
+        email_address = "Josh@68duck.co.uk"
+        link = self.get_table_link(email_address)
+        app.config['MAIL_SERVER']='smtp.gmail.com'
+        app.config['MAIL_PORT'] = 465
+        app.config['MAIL_USE_TLS'] = False
+        app.config['MAIL_USE_SSL'] = True
+        app.config["MAIL_USERNAME"] = "test68duck@gmail.com"
+        app.config["MAIL_PASSWORD"] = "qlosiorsjujiuoga"
+        subject = "Booking approval"
+        message = render_template("book_a_session_check_email.html",full_name=email_record["full_name"],name=email_record["name"],date=email_record["date"],time=email_record["time"],hour=email_record["hour"],mins=email_record["mins"],email=email_record["email"])
+        mail = Mail(app)
+        msg = Message(subject,sender="test68duck@gmail.com",recipients = [email_address])
+        msg.html = message
+        with app.open_resource(fileDir+"/invites/invite.ics") as fp:
+            msg.attach("invite.ics", "text/calendar", fp.read())
+        mail.send(msg)
+
+    def get_email_hash(self,email_address):
+        before_hash = "fhsadjkhr2389horuih789q34h" + email_address + "34892y78oghdfuihdfsa789dhsfsadfjkh"
+        m = hashlib.sha256()
+        m.update(before_hash.encode("utf8"))
+        hash = m.hexdigest()
+        return hash
+
+    def get_table_link(self,email_address):
+        hash = self.get_email_hash(email_address)
+        link = "http://68duck.co.uk/book_a_session/" + hash
+        return link
+
+def valid_email_format(email_address):
+    regex = re.compile(r'([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+')
+    return re.match(regex,email_address)
+
+@app.route("/book_a_session_login_email",methods=["POST"])
+def book_a_session_login_email():
+    data = request.get_json()
+    if data is None:
+        return "There was no email input"
+    else:
+        email_address = data["email"]
+        if valid_email_format(email_address):
+            book = Book_a_session()
+            email_record = data
+            book.query_db("INSERT INTO people(full_name,email,price_per_hour) VALUES(?,?,?)",(email_record["full_name"],email_record["email"].lower(),25.00))
+            book.send_login_email(email_record)
+            return "Email Sent"
+        else:
+            return "Your email is not in a valid format. Please try again"
+
+@app.route("/book_a_session/<id>")
+def book_a_session(id):
+    book = Book_a_session()
+    emails = book.query_db("SELECT email FROM people")
+    for email_dict in emails:
+        email = email_dict["email"]
+        if id == book.get_email_hash(email):
+            full_name = book.query_db("SELECT full_name FROM people WHERE email = ?",(email,))
+            if len(full_name) == 0:
+                pass
+            else:
+                table_data = book.query_db("SELECT name,date,time,hour,mins,approved,paid FROM bookings WHERE date > ? AND email = ?",(datetime.now(),email))
+                arr = []
+                for val in table_data:
+                    arr.append([val["name"],val["date"],val["time"],val["hour"],val["mins"],val["approved"],val["paid"]])
+                table_data2 = book.query_db("SELECT name,date,time,hour,mins,approved,paid FROM bookings WHERE date < ? AND email = ?",(datetime.now(),email))
+                arr2 = []
+                for val in table_data2:
+                    arr2.append([val["name"],val["date"],val["time"],val["hour"],val["mins"],val["approved"],val["paid"]])
+                return render_template("book_a_session.html",full_name = full_name[0]["full_name"],email=email,future_table_data = arr,past_table_data = arr2)
+    return render_template("book_a_session_error_page.html")
+
+@app.route("/request_booking",methods=["POST"])
+def request_booking():
+    data = request.get_json()
+    if data is None:
+        return "There was no data recieved"
+    else:
+        date = datetime.strptime(data["date"],"%Y-%m-%d")
+        if date < datetime.today():
+            return "The date is before today"
+        book = Book_a_session()
+        name = data["name"]
+        time = data["time"]
+        hour = data["hour"]
+        mins = data["mins"]
+        date = data["date"]
+        email = data["email"]
+        book.query_db("INSERT INTO bookings(email,name,date,time,hour,mins,approved,paid) VALUES (?,?,?,?,?,?,?,?)",(email,name,date,time,hour,mins,0,0))
+        email_record = data
+        book.send_confirmation_email(email_record)
+        book.send_approval_email(email_record)
+        return "All OK"
+
+@app.route("/approve_bookings/<id>")
+def approve_bookings(id):
+    if id != "27a2ec9e892ad4f8d06d2b2adf1156212b1e557bb8626defda96a198aa59c2dc":
+        return render_template("book_a_session_error_page.html")
+    else:
+        book = Book_a_session()
+        table_data = book.query_db("SELECT id,email,name,date,time,hour,mins,approved,paid FROM bookings WHERE date > ?",(datetime.now(),))
+        arr = []
+        for val in table_data:
+            arr.append([val["id"],val["email"],val["name"],val["date"],val["time"],val["hour"],val["mins"],val["approved"],val["paid"]])
+
+        previous_table_data = book.query_db("SELECT id,email,name,date,time,hour,mins,approved,paid FROM bookings WHERE date <= ?",(datetime.now(),))
+        arr2 = []
+        for val in previous_table_data:
+            arr2.append([val["id"],val["email"],val["name"],val["date"],val["time"],val["hour"],val["mins"],val["approved"],val["paid"]])
+
+        return render_template("book_a_session_approve_bookings.html",table_data=arr,previous_table_data=arr2)
+
+
+@app.route("/update_approved_bookings",methods=["POST"])
+def update_approved_bookings():
+    data = request.get_json()
+    if data is None:
+        return "No data"
+    else:
+        book = Book_a_session()
+        table_data = data["table_information"]
+        send_email = data["send_email"]
+        for row in table_data:
+            id = row[0]
+            email = row[1]
+            name = row[2]
+            date = row[3]
+            time = row[4]
+            hour = row[5]
+            mins = row[6]
+            approved = row[7]
+            paid = row[8]
+            book.query_db("UPDATE bookings SET email = ? WHERE id = ? ",(email,id))
+            book.query_db("UPDATE bookings SET name = ? WHERE id = ? ",(name,id))
+            book.query_db("UPDATE bookings SET date = ? WHERE id = ? ",(date,id))
+            book.query_db("UPDATE bookings SET time = ? WHERE id = ? ",(time,id))
+            book.query_db("UPDATE bookings SET hour = ? WHERE id = ? ",(hour,id))
+            book.query_db("UPDATE bookings SET mins = ? WHERE id = ? ",(mins,id))
+            book.query_db("UPDATE bookings SET approved = ? WHERE id = ? ",("0" if approved == False else "1",id))
+            book.query_db("UPDATE bookings SET paid = ? WHERE id = ? ",("0" if paid == False else "1",id))
+
+            if approved and send_email:
+                info = book.query_db("SELECT email,name,date,time,hour,mins FROM bookings WHERE id = ?",(id,))
+                email_record = info[0]
+                full_name = book.query_db("SELECT full_name FROM people WHERE email = ?",(email_record["email"],))
+                email_record["full_name"] = full_name[0]["full_name"]
+                book.send_approved_email(email_record)
+                book.send_check_email(email_record)
+
+
+        return "All OK"
+
+@app.route("/view_invoice/<full_name>/<email>")
+def view_invoice(full_name,email):
+    book = Book_a_session()
+
+    table_data = book.query_db("SELECT id,name,date,time,hour,mins FROM bookings WHERE date <= ? AND approved = ? AND paid = ? AND email = ?",(datetime.now(),"1","0",email))
+    arr = []
+    price_per_hour = book.query_db("SELECT price_per_hour FROM people WHERE email = ?",(email,))[0]["price_per_hour"]
+    total_cost = 0
+    for val in table_data:
+        cost = (val["hour"] + val["mins"]/60) * price_per_hour
+        total_cost += cost
+        cost = format(cost,".2f")
+        arr.append([val["name"],val["date"],val["time"],val["hour"],val["mins"],cost])
+    total_cost = format(total_cost,".2f")
+    date = datetime.now()
+    template = render_template("invoice_email_template.html", date = date.strftime("%d-%m-%y"), name=full_name,table_data = arr,total_cost=total_cost)
+    pdf = pdfkit.from_string(template,False)
+    response = make_response(pdf)
+    response.headers["Content-Type"] = "application/pdf"
+    response.headers["Content-Disposition"] = "inline; filename=output.pdf"
+    return response
+
+
+'''
 Normal website
 '''
 
@@ -1013,6 +1337,10 @@ def elevenPlusTutoring():
 @app.route("/computingAndMathsTutoring")
 def computingAndMathsTutoring():
     return render_template("computingAndMathsTutoring.html",currentPrice = currentPrice)
+
+@app.route("/book_a_session_logon")
+def book_a_session_logon():
+    return render_template("book.html")
 
 
 if __name__ == "__main__":      #runs the application

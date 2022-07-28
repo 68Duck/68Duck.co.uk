@@ -1,0 +1,148 @@
+{% extends "base2.html" %}
+{% block title %}68 Duck{% endblock %}
+{% block links %}<link rel="stylesheet" href="{{url_for('static',filename='book_a_session_approve_bookings_style.css')}}" type="text/css">{% endblock %}
+{% block scripts %}
+
+<script src="{{url_for('static', filename='book_a_session_approve_bookings_app.js')}}" charset="utf-8"></script>
+{% endblock %}
+{% block header %}
+Approve sessions
+{% endblock %}
+{% block content %}
+<div class="alertDiv" id="alertDiv" style="display:none">
+  <p class="alert" id="alert"></p>
+</div>
+<div class="messagesDiv" id="messagesDiv" style="display:none">
+  <p class="message" id="message"></p>
+</div>
+<br/>
+<div class="background_div">
+  <b>Yet to be approved:</b><br/>
+  <table id = "table">
+    <thead>
+      <tr>
+        <th>id</th>
+        <th>Email</th>
+        <th>Name</th>
+        <th>Date</th>
+        <th>Time</th>
+        <th>Hour</th>
+        <th>Mins</th>
+        <th>Approved</th>
+        <th>Paid</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for i in range(table_data|length) %}
+      {% if table_data[i][7] == "0" %}
+      <tr>
+        {% for j in range(table_data[i]|length) %}
+          {% if j != 8 and j != 7 %}
+            {% if j == 0 %}
+            <td contenteditable="false" class="table_item">{{table_data[i][j]}}</td>
+            {% else %}
+            <td contenteditable="true" class="table_item">{{table_data[i][j]}}</td>
+            {% endif %}
+           {% else %}
+           {% if table_data[i][j]=="0" %}
+           <td><input type="checkbox"></td>
+           {% else %}
+           <td><input type="checkbox" checked></td>
+           {% endif %}
+           {% endif %}
+        {% endfor %}
+      </tr>
+    {% endif %}
+    {% endfor %}
+    </tbody>
+  </table>
+  <br/>
+  <button type="submit" class="btn" name="button" onclick="submit_pressed()">Submit</button>
+</div>
+<br/>
+<div class="background_div">
+  <b>Approved:</b><br/>
+  <table id="table2">
+    <thead>
+      <tr>
+        <th>id</th>
+        <th>Email</th>
+        <th>Name</th>
+        <th>Date</th>
+        <th>Time</th>
+        <th>Hour</th>
+        <th>Mins</th>
+        <th>Approved</th>
+        <th>Paid</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for i in range(table_data|length) %}
+      {% if table_data[i][7] == "1" %}
+      <tr>
+        {% for j in range(table_data[i]|length) %}
+          {% if j != 8 and j != 7 %}
+            {% if j == 0 %}
+            <td contenteditable="false" class="table_item">{{table_data[i][j]}}</td>
+            {% else %}
+            <td contenteditable="true" class="table_item">{{table_data[i][j]}}</td>
+            {% endif %}
+           {% else %}
+           {% if table_data[i][j]=="0" %}
+           <td><input type="checkbox"></td>
+           {% else %}
+           <td><input type="checkbox" checked></td>
+           {% endif %}
+           {% endif %}
+        {% endfor %}
+      </tr>
+    {% endif %}
+    {% endfor %}
+    </tbody>
+  </table><br/>
+  <button type="submit" class="btn" name="button" onclick="update_pressed()">Update</button>
+</div>
+<br/>
+<br/>
+<div class="background_div">
+  <b>Previous sessions:</b><br/>
+  <table id="table3">
+    <thead>
+      <tr>
+        <th>id</th>
+        <th>Email</th>
+        <th>Name</th>
+        <th>Date</th>
+        <th>Time</th>
+        <th>Hour</th>
+        <th>Mins</th>
+        <th>Approved</th>
+        <th>Paid</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for i in range(previous_table_data|length) %}
+      <tr>
+        {% for j in range(previous_table_data[i]|length) %}
+          {% if j != 8 and j != 7 %}
+            {% if j == 0 %}
+            <td contenteditable="false" class="table_item">{{previous_table_data[i][j]}}</td>
+            {% else %}
+            <td contenteditable="true" class="table_item">{{previous_table_data[i][j]}}</td>
+            {% endif %}
+           {% else %}
+           {% if previous_table_data[i][j]=="0" %}
+           <td><input type="checkbox"></td>
+           {% else %}
+           <td><input type="checkbox" checked></td>
+           {% endif %}
+           {% endif %}
+        {% endfor %}
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table><br/>
+  <button type="submit" class="btn" name="button" onclick="update2_pressed()">Update</button>
+</div>
+
+{% endblock %}

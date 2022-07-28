@@ -1,0 +1,153 @@
+{% extends "base2.html" %}
+{% block title %}68 Duck{% endblock %}
+{% block links %}<link rel="stylesheet" href="{{url_for('static',filename='book_a_session_style.css')}}" type="text/css">{% endblock %}
+{% block scripts %}
+<script type="text/javascript">
+  var full_name = {{full_name|tojson}}
+  var email = {{email|tojson}}
+</script>
+<script src="{{url_for('static', filename='book_a_session_app.js')}}" charset="utf-8"></script>
+{% endblock %}
+{% block header %}
+Book a Session
+{% endblock %}
+{% block content %}
+<div class="alertDiv" id="alertDiv" style="display:none">
+  <p class="alert" id="alert"></p>
+</div>
+<div class="messagesDiv" id="messagesDiv" style="display:none">
+  <p class="message" id="message"></p>
+</div>
+<br/>
+<div class="background_div" id="introductory_div">
+  Hello {{full_name}},
+  <br/><br/>
+  This is your unique page where you can book a tuition session with me.
+  If you have any questions or issues with this page, please don't hesitate to contact me on Josh@68duck.co.uk.
+  Also, if you would rather not use this online system, please feel free to book session with me directly by emailing me.
+  This website is a passion project of mine so I can improve my programming ability, so I am more than happy to
+  book sessions without using this system, as its creation had more than one purpose.
+</div>
+<br/>
+<div class="background_div" id="book_session_div">
+  <b>Book a session:</b>
+  <br/>
+  <br/>
+  Student Name: <input type="text" id="name_input" placeholder="Enter the students name" width = "30%">
+  <br/>
+  <br/>
+  Day: <input type="date" id="date_input"></input>
+  <br/>
+  <br/>
+  Time: <input type="time" value="12:00" min="08:00" max="20:00" id="time_input"></input>
+  <br/>
+  <br/>
+  Duration:
+  <select value="1" id="hour_input">
+    <option value="0">0</option>
+    <option value="1" selected>1</option>
+    <option value="2">2</option>
+    <option value="3">3</option>
+  </select>
+  hr
+  <select value="1" id="mins_input">
+    <option value="0" selected>0</option>
+    <option value="15">15</option>
+    <option value="30">30</option>
+    <option value="45">45</option>
+  </select>
+  min
+  <br/>
+  <br/>
+  <button type="submit" name="button" class="btn" onclick="book_session()">Submit</button>
+</div>
+<br/>
+<div class="background_div" id="booked_sessions_div">
+  <b>Booked sessions:</b><br/>
+  <br/>
+  <table id = "table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Date</th>
+        <th>Time</th>
+        <th>Hour</th>
+        <th>Mins</th>
+        <th>Approved</th>
+        <th>Pre-Paid</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for i in range(future_table_data|length) %}
+      <tr>
+        {% for j in range(future_table_data[i]|length) %}
+          {% if j != 5 and j!=6 %}
+           <td contenteditable="false" class="table_item">
+             {{future_table_data[i][j]}}
+           </td>
+           {% else %}
+           {% if future_table_data[i][j]=="0" %}
+           <td><input type="checkbox" onclick="return false;"></td>
+           {% else %}
+           <td><input type="checkbox" checked onclick="return false;"></td>
+           {% endif %}
+           {% endif %}
+        {% endfor %}
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+<br/>
+<div class="background_div" id="previous_sessions_div">
+  <b>Previous sessions:</b><br/><br/>
+  <table id = "table2">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Date</th>
+        <th>Time</th>
+        <th>Hour</th>
+        <th>Mins</th>
+        <th>Approved</th>
+        <th>Paid</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for i in range(past_table_data|length) %}
+      <tr>
+        {% for j in range(past_table_data[i]|length) %}
+          {% if j != 5 and j!=6 %}
+           <td contenteditable="false" class="table_item">
+             {{past_table_data[i][j]}}
+           </td>
+           {% else %}
+           {% if past_table_data[i][j]=="0" %}
+           <td><input type="checkbox" onclick="return false;"></td>
+           {% else %}
+           <td><input type="checkbox" checked onclick="return false;"></td>
+           {% endif %}
+           {% endif %}
+        {% endfor %}
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+<br/>
+<div class="background_div" id="view_invoice_div">
+  <b>View Invoice:</b><br/><br/>
+  View an invoice for any past unpaid sessions<br/><br/>
+  <button type="button" class="btn" name="button" onclick="request_invoice_pressed()">Go</button>
+</div>
+
+<div class="background_div" id="confirm_booking_div" style="display:none;">
+  <b>Confirm booking:</b>
+  <br/><br/>
+  <span id="message_span"></span>
+  <br/><br/>
+  <button type="button" name="yes" id="yes_button" class="btn" onclick="yes_pressed()">Yes</button>
+  <button type="button" name="no" id="no_button" class="btn" onclick="no_pressed()">No</button>
+</div>
+
+{% endblock %}

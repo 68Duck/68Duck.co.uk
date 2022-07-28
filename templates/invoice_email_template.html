@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <link rel="shortcut icon" type="icon/x-icon" href="{{url_for('static',filename='Images/wordlessLogo.png')}}" />
+    <meta charset="utf-8">
+    <title>Invoice</title>
+  </head>
+  <body>
+    <div class="main_header">
+      <div id="image_div">
+        <a href="http://68duck.co.uk">
+          <img src="http://68duck.co.uk/static/Images/logo2.png" height="250px" id="image"></img>
+        </a>
+      </div>
+      <div id="header">
+        <u>
+          <h1>Tutoring Invoice</h1>
+        </u>
+      </div>
+      <br/>
+      <div class="box">
+        07470 362230
+        <br/>
+        <br/>
+        Josh@68duck.co.uk
+        <br/>
+        <br/>
+        <b>Date of Invoice:</b> {{ date }}
+      </div>
+    </div>
+    <br/>
+    <div class="name_div">
+      <b>Name</b> : {{name}}
+    </div>
+    <br/>
+    <div class="table_div">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Hours</th>
+            <th>Minutes</th>
+            <th>Cost</th>
+          </tr>
+        </thead>
+        <br/>
+        <tbody>
+          {% for i in range(table_data|length) %}
+          <tr>
+            {% for j in range(table_data[i]|length) %}
+            {% if j == 5 %}
+            <td contenteditable="false" class="table_item">£{{table_data[i][j]}}</td>
+            {% else %}
+            <td contenteditable="false" class="table_item">{{table_data[i][j]}}</td>
+            {% endif %}
+            {% endfor %}
+          </tr>
+          {% endfor %}
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td><b>Total:</b></td>
+            <td>£{{total_cost}}</td>
+          </tr>
+        </tbody>
+    </div>
+  </body>
+  <style>
+
+    .name_div{
+      font-size: 20px;
+      margin-left: 200px;
+    }
+
+    .table{
+      border: 2px solid black;
+      border-radius: 5px;
+      font-family: arial, sans-serif;
+      border-collapse: collapse;
+      /* padding: 10px; */
+      /* border-collapse: separate !important; */
+      width: 100%;
+      padding:10px;
+      max-width: 100%;
+      table-layout: fixed;
+      margin-top: 150px;
+    }
+
+    td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+    }
+
+
+    tr:nth-child(even) {
+      background-color: #dddddd;
+    }
+
+    .box{
+
+      font-size:20px;
+      border-radius: 5px;
+      float: right;
+      padding: 10px;
+      margin: 10px 20px 10px 10px;
+    }
+
+    #image_div{
+      float:left;
+      padding:10px;
+    }
+    #header{
+      height:50px;
+      padding: 10px;
+      border: 2px solid white;
+      align-items: right;
+      justify-content: right;
+      text-align:right;
+      display: flex;
+    }
+  </style>
+</html>

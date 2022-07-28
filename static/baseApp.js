@@ -9,8 +9,8 @@ var main = document.getElementById("main")
 buttonsArray = new Array()
 
 var buttonNameList = new Array()
-buttonNameList = ["Home","11+ Tutoring","Computing and Maths Tutoring","5 Step Learn"]
-buttonLinkList = ["/","/11+Tutoring","/computingAndMathsTutoring","/learn"]
+buttonNameList = ["Home","11+ Tutoring","Computing and Maths Tutoring","5 Step Learn","Book a Session"]
+buttonLinkList = ["/","/11+Tutoring","/computingAndMathsTutoring","/learn","/book_a_session_logon"]
 
 var lastButtonLength = 0;
 var previousButtonsLengths = new Array()

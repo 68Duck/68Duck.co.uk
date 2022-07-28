@@ -1,0 +1,45 @@
+{% extends "base2.html" %}
+{% block title %}68 Duck{% endblock %}
+{% block links %}<link rel="stylesheet" href="{{url_for('static',filename='book_style.css')}}" type="text/css">{% endblock %}
+{% block scripts %}<script src="{{url_for('static', filename='book_app.js')}}" charset="utf-8"></script> {% endblock %}
+
+
+{% block header %}
+Book a Session Logon
+{% endblock %}
+{% block content %}
+<div class="alertDiv" id="alertDiv" style="display:none">
+  <p class="alert" id="alert"></p>
+</div>
+<div class="messagesDiv" id="messagesDiv" style="display:none">
+  <p class="message" id="message"></p>
+</div>
+<br/>
+<div class="background_div" id="initial_message_div">
+  If you would like to book a session with me, you can either contact me directly through Josh@68duck.co.uk,
+  or you can request a session through this online booking system. If you choose to use the online system
+  please enter your email below. This will send you an email with a unique link which allows you to log onto
+  your personal booking page. Please only share this link with people that you would like to be able to book
+  sessions on your behalf, as it will give them complete access to your account.
+  <br/><br/>
+  When booking sessions, you will be sent an email confiming the time you asked for, and then another when
+  I approve the time requested or if I suggest an alternative time in the case when I am busy.
+</div>
+<br/>
+<div class="background_div" id="email_input_div">
+  <b>Please enter your email to access your unique login link:</b>
+  <br/><br/>
+  Forename: <input id="forename_input" width="30%"></input>
+  <br/><br/>
+  Surname: <input id="surname_input" width="30%"></input>
+  <br/><br/>
+  Email: <input id="email_input" width="30%"></input>
+  <br/><br/>
+  <input type="submit" class="btn" value="Submit" onclick="submit_pressed()"></input>
+</div>
+
+<div class="background_div" style="display:none" id="email_sent_message">
+    An email was sent to your email address. Please use the link in that email to book a session.
+</div>
+
+{% endblock %}
