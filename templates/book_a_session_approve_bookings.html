@@ -144,5 +144,29 @@ Approve sessions
   </table><br/>
   <button type="submit" class="btn" name="button" onclick="update2_pressed()">Update</button>
 </div>
+<br>
+<br>
 
+<div class="background_div">
+  <table id="accounts_div">
+    <thead>
+      <tr>
+        <th>id</th>
+        <th>full_name</th>
+        <th>email</th>
+        <th>price_per_hour</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for i in range(accounts_data|length) %}
+        <tr>
+          {% for j in range(accounts_data[i]|length) %}
+          <td contenteditable="false" class="table_item">{{accounts_data[i][j]}}</td>
+          {% endfor %}
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+</div>
 {% endblock %}

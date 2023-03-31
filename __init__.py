@@ -12,7 +12,7 @@ import json
 import re
 import pdfkit
 from icalendar import Calendar, Event, vCalAddress, vText
-import pytz
+# import pytz
 
 fileDir = path.dirname(__file__) # for loading images
 
@@ -1247,7 +1247,12 @@ def approve_bookings(id):
         for val in previous_table_data:
             arr2.append([val["id"],val["email"],val["name"],val["date"],val["time"],val["hour"],val["mins"],val["approved"],val["paid"]])
 
-        return render_template("book_a_session_approve_bookings.html",table_data=arr,previous_table_data=arr2)
+        account_data = book.query_db("SELECT id,full_name,email,price_per_hour FROM people")
+        arr3 = []
+        for val in account_data:
+            arr3.append([val["id"],val["full_name"],val["email"],val["price_per_hour"]])
+
+        return render_template("book_a_session_approve_bookings.html",table_data=arr,previous_table_data=arr2,accounts_data=arr3)
 
 
 @app.route("/update_approved_bookings",methods=["POST"])
@@ -1316,7 +1321,7 @@ def view_invoice(full_name,email):
 Normal website
 '''
 
-currentPrice = "25.00"
+currentPrice = "40.00"
 
 @app.route("/")
 def index():

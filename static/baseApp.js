@@ -9,8 +9,10 @@ var main = document.getElementById("main")
 buttonsArray = new Array()
 
 var buttonNameList = new Array()
-buttonNameList = ["Home","11+ Tutoring","Computing and Maths Tutoring","5 Step Learn","Book a Session"]
-buttonLinkList = ["/","/11+Tutoring","/computingAndMathsTutoring","/learn","/book_a_session_logon"]
+// buttonNameList = ["Home","11+ Tutoring","Computing and Maths Tutoring","5 Step Learn","Book a Session"]
+// buttonLinkList = ["/","/11+Tutoring","/computingAndMathsTutoring","/learn","/book_a_session_logon"]
+buttonNameList = ["Home","11+ Tutoring","Computing and Maths Tutoring"]
+buttonLinkList = ["/","/11+Tutoring","/computingAndMathsTutoring"]
 
 var lastButtonLength = 0;
 var previousButtonsLengths = new Array()
